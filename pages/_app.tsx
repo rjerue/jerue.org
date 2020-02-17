@@ -21,13 +21,19 @@ function makeColor([r, g, b]: RGBColor, a = 1): string {
 }
 
 async function refreshThemeColorsFromColormind(): Promise<Partial<Colors>> {
-  //
-  const color = await fetch("http://colormind.io/api/", {
-    method: "post",
-    body: JSON.stringify({
-      model: "ui"
-    })
-  })
+  // niNcEMl95H8DZeqlAfi4b62lapJ56j2N79lpinSe
+  const color = await fetch(
+    "https://oycz17dpn0.execute-api.us-east-1.amazonaws.com/production",
+    {
+      method: "post",
+      body: JSON.stringify({
+        model: "ui"
+      }),
+      headers: {
+        "x-api-key": "niNcEMl95H8DZeqlAfi4b62lapJ56j2N79lpinSe"
+      }
+    }
+  )
     .then(result => result.json())
     .then(
       data => data.result as [RGBColor, RGBColor, RGBColor, RGBColor, RGBColor]
@@ -70,7 +76,7 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
     const { theme } = this.state;
-    console.log(theme);
+    // console.log(theme);
     return (
       <>
         <Head>
