@@ -3,7 +3,7 @@ import App from "next/app";
 import Head from "next/head";
 import { ThemeProvider } from "emotion-theming";
 import preset from "@rebass/preset";
-import Layout from "../components/navbar";
+import Layout from "../layouts/default";
 
 interface Colors {
   text: string;
