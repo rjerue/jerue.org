@@ -1,11 +1,11 @@
 import React from "react";
-import { Text } from "rebass";
+import { Text, Heading, Box } from "rebass";
 import { NextPage } from "next";
 
 const HomePage: NextPage = () => {
   return (
-    <section>
-      <Text>About me:</Text>
+    <Box as="section" mt={2}>
+      <Heading>About me:</Heading>
       <ul>
         <Text as="li">
           Previously worked at NAVSEA, Charles River Development, and with the
@@ -21,7 +21,7 @@ const HomePage: NextPage = () => {
           Sox, Patriots; and playing soccer.
         </Text>
       </ul>
-    </section>
+    </Box>
   );
 };
 

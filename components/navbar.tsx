@@ -21,8 +21,8 @@ const Navbar: React.FC = () => {
         sx={{
           textDecoration: "none",
           ":hover": {
-            color: "highlight"
-          }
+            color: "highlight",
+          },
         }}
         href="/"
       >
@@ -35,13 +35,14 @@ const Navbar: React.FC = () => {
         href="https://github.com/rjerue"
         target="_blank"
         rel="noreferrer"
+        aria-label="Github Link"
       >
         <Text
           as="i"
           sx={{
             ":hover": {
-              color: "highlight"
-            }
+              color: "highlight",
+            },
           }}
           fontSize={[3, 4, 5]}
           className="fab fa-github"
@@ -58,19 +59,20 @@ const Navbar: React.FC = () => {
           color: "background",
           ":hover": {
             cursor: "pointer",
-            backgroundColor: "highlight"
+            backgroundColor: "highlight",
           },
           ":focus": {
             cursor: "pointer",
             backgroundColor: "muted",
-            boxShadow: "0 0 0 2pt rgba(0, 0, 0, .125)"
-          }
+            boxShadow: "0 0 0 2pt rgba(0, 0, 0, .125)",
+          },
         }}
         ml={4}
         onClick={e => {
           e.preventDefault();
           refreshTheme();
         }}
+        aria-label="Change colors"
       >
         <Flex justifyContent="center">
           <Text

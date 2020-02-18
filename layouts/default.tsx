@@ -9,7 +9,7 @@ const Layout: React.FC = ({ children }) => {
         color: "text",
         maxWidth: [512, 768],
         mx: "auto",
-        px: 4
+        px: 4,
       }}
     >
       <Flex flexDirection="column">
@@ -22,6 +22,7 @@ const Layout: React.FC = ({ children }) => {
             more.
           </div>
         </Box>
+
         <Box>{children}</Box>
       </Flex>
     </Box>

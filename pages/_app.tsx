@@ -1,6 +1,5 @@
 import React from "react";
 import App from "next/app";
-import Head from "next/head";
 import { ThemeProvider } from "emotion-theming";
 import preset from "@rebass/preset";
 import Layout from "../layouts/default";
@@ -27,11 +26,11 @@ async function refreshThemeColorsFromColormind(): Promise<Partial<Colors>> {
     {
       method: "post",
       body: JSON.stringify({
-        model: "ui"
+        model: "ui",
       }),
       headers: {
-        "x-api-key": "niNcEMl95H8DZeqlAfi4b62lapJ56j2N79lpinSe"
-      }
+        "x-api-key": "niNcEMl95H8DZeqlAfi4b62lapJ56j2N79lpinSe",
+      },
     }
   )
     .then(result => result.json())
@@ -43,12 +42,12 @@ async function refreshThemeColorsFromColormind(): Promise<Partial<Colors>> {
     background: makeColor(color[4]),
     primary: makeColor(color[2]),
     muted: makeColor(color[3]),
-    highlight: makeColor(color[1])
+    highlight: makeColor(color[1]),
   };
 }
 
 const ThemeRefresher = React.createContext({
-  refreshTheme: async () => {}
+  refreshTheme: async () => {},
 });
 
 export function useRefreshTheme() {
@@ -58,7 +57,7 @@ export function useRefreshTheme() {
 
 class MyApp extends App {
   state = {
-    theme: preset
+    theme: preset,
   };
 
   refreshThemeColors = async () => {
@@ -67,9 +66,9 @@ class MyApp extends App {
         ...preset,
         colors: {
           ...this.state.theme.colors,
-          ...(await refreshThemeColorsFromColormind())
-        }
-      }
+          ...(await refreshThemeColorsFromColormind()),
+        },
+      },
     });
   };
 
@@ -79,12 +78,6 @@ class MyApp extends App {
     // console.log(theme);
     return (
       <>
-        <Head>
-          <script
-            src="https://kit.fontawesome.com/8fb79adcb6.js"
-            crossOrigin="anonymous"
-          ></script>
-        </Head>
         <ThemeRefresher.Provider
           value={{ refreshTheme: this.refreshThemeColors }}
         >
@@ -96,7 +89,9 @@ class MyApp extends App {
               body {
                 background-color: ${theme.colors.background};
               }
-              h1 {
+              h1,
+              h2,
+              h3 {
                 color: ${theme.colors.primary};
               }
             `}</style>
