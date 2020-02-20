@@ -10,6 +10,15 @@ Parameters:
   GithubOAuthToken:
     Type: String
     Description: "Github personal access token, https://github.com/settings/tokens"
+  Alias:
+    Type: String
+    Description: Alternate Domain for DNS. Omit the www. Example "jerue.org"
+Conditions:
+  HasAlias:
+    Fn::Not:
+      - Fn::Equals:
+        - ""
+        - !Ref Alias
 Resources:
   DeployBucket:
     Type: "AWS::S3::Bucket"
@@ -20,6 +29,20 @@ Resources:
     Type: "AWS::CloudFront::Distribution"
     Properties:
       DistributionConfig:
+        Aliases:
+          Fn::If:
+            - HasAlias
+            - 
+              - !Sub ${Alias}
+              - !Sub www.${Alias}
+            - AWS::NoValue
+        ViewerCertificate:
+          Fn::If:
+            - HasAlias
+            - AcmCertificateArn: !Ref MyCert
+              MinimumProtocolVersion: TLSv1.2_2018
+              SslSupportMethod: sni-only
+            - AWS::NoValue
         Origins:
           - # Use the DeployBucket as the CDN origin
             DomainName: !GetAtt DeployBucket.DomainName
@@ -36,6 +59,7 @@ Resources:
             QueryString: true
           TargetOriginId: !Ref DeployBucket
           ViewerProtocolPolicy: "redirect-to-https" # we want to force HTTPS
+        HttpVersion: http2
   CodeBuildRole:
     Type: AWS::IAM::Role
     Properties:
@@ -220,3 +244,42 @@ Resources:
                 - Name: MyAppBuild
               Configuration:
                 ProjectName: !Ref CodeBuild
+  DNS:
+    Condition: HasAlias
+    Type: "AWS::Route53::HostedZone"
+    Properties:
+      HostedZoneConfig:
+        Comment: !Sub ${Alias} Hosted Zone DNS Config
+      Name: !Ref Alias
+  ARecord:
+    Condition: HasAlias
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref DNS
+      AliasTarget: !GetAtt Distribution.DomainName
+      Type: A
+  AAAARecord:
+    Condition: HasAlias
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref DNS
+      AliasTarget: !GetAtt Distribution.DomainName
+      Type: AAAA
+  WWWRecord:
+    Condition: HasAlias
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref DNS
+      TTL: '300'
+      Name: !Sub www.${Alias}
+      ResourceRecords:
+        - !Ref Alias
+      Type: CNAME
+  MyCert:
+    Condition: HasAlias
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref Alias
+      ValidationMethod: DNS
+      SubjectAlternativeNames:
+        - !Sub www.${Alias}
