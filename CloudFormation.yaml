@@ -256,14 +256,22 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref DNS
-      AliasTarget: !GetAtt Distribution.DomainName
+      AliasTarget:
+        DNSName: !GetAtt Distribution.DomainName
+        EvaluateTargetHealth: false
+        HostedZoneId: Z2FDTNDATAQYW2
+      Name: !Ref Alias
       Type: A
   AAAARecord:
     Condition: HasAlias
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref DNS
-      AliasTarget: !GetAtt Distribution.DomainName
+      AliasTarget:
+        DNSName: !GetAtt Distribution.DomainName
+        EvaluateTargetHealth: false
+        HostedZoneId: Z2FDTNDATAQYW2
+      Name: !Ref Alias
       Type: AAAA
   WWWRecord:
     Condition: HasAlias
