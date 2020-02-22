@@ -11,6 +11,7 @@ const Layout: React.FC = ({ children }) => {
         mx: "auto",
         px: 4,
       }}
+      pb="20vh"
     >
       <Flex flexDirection="column">
         <Navbar />

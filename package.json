@@ -11,6 +11,7 @@
   "main": "pages/index.tsx",
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^2.0.6",
+    "@loadable/component": "^5.12.0",
     "@mdx-js/loader": "^1.5.5",
     "@mdx-js/react": "^1.5.5",
     "@next/mdx": "^9.2.1",
@@ -21,6 +22,7 @@
     "@zeit/next-css": "1.0.1",
     "autoprefixer": "9.7.4",
     "emotion-theming": "^10.0.27",
+    "humanize-string": "^2.1.0",
     "next": "^9.2.1",
     "next-offline": "^5.0.0",
     "postcss-import": "12.0.1",
@@ -28,12 +30,14 @@
     "react-dom": "latest",
     "rebass": "^4.0.7",
     "tailwindcss": "^1.2.0",
+    "titleize": "^2.1.0",
     "typescript": "3.6.4"
   },
   "license": "ISC",
   "keywords": [],
   "description": "",
   "devDependencies": {
+    "@types/loadable__component": "^5.10.0",
     "@types/mdx-js__react": "^1.5.0",
     "@types/rebass": "^4.0.4",
     "prettier": "1.19.1"
