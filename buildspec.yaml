@@ -24,7 +24,6 @@ phases:
   post_build:
     commands:
       - echo Entered the post_build phase...
-      - node ./fix-html.js
       - aws s3 cp --recursive --acl public-read ./out s3://${DeployBucket}/
       - >
         aws s3 cp --acl public-read 
