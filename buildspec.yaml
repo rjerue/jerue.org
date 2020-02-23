@@ -1,0 +1,43 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo Entered the install phase...
+      - apt-get update -y
+      - apt-get install apt-transport-https
+      # Setup for Yarn
+      - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+      - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+      # Setup for Chrome
+      # Do it!
+      - apt-get update -y
+      - apt-get install -y yarn
+  pre_build:
+    commands:
+      - echo Entered the pre_build phase...
+      - yarn install
+  build:
+    commands:
+      - echo Entered the build phase...
+      - yarn run build
+      - yarn run export
+  post_build:
+    commands:
+      - echo Entered the post_build phase...
+      - aws s3 cp --recursive --acl public-read ./out s3://${DeployBucket}/
+      - >
+        aws s3 cp --acl public-read 
+        --cache-control="max-age=0, no-cache, no-store, must-revalidate" 
+        ./out/service-worker.js s3://${DeployBucket}/
+      - >
+        aws s3 cp --recursive --acl public-read 
+        --cache-control="max-age=0, no-cache, no-store, must-revalidate" 
+        ./out s3://${DeployBucket}/ --exclude * --include *.html
+      - >
+        aws cloudfront create-invalidation --distribution-id ${Distribution} 
+        --paths "/*"
+artifacts:
+  files:
+    - "**/*"
+  discard-paths: no
+  base-directory: out
