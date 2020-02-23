@@ -127,9 +127,9 @@ Resources:
         Type: LINUX_CONTAINER
         Image: "aws/codebuild/nodejs:8.11.0"
         EnvironmentVariables:
-          - Name: Bucket
+          - Name: DeployBucket
             Value: !Ref DeployBucket 
-          - Name: CloudFrontDistribution
+          - Name: Distribution
             Value: !Ref Distribution
       Source:
         Type: CODEPIPELINE      
