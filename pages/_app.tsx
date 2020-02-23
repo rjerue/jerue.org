@@ -1,5 +1,6 @@
 import React from "react";
 import App from "next/app";
+import Head from "next/head";
 import { ThemeProvider } from "emotion-theming";
 import preset from "@rebass/preset";
 import Layout from "../layouts/default";
@@ -78,6 +79,9 @@ class MyApp extends App {
     // console.log(theme);
     return (
       <>
+        <Head>
+          <title>Ryan Jerue</title>
+        </Head>
         <ThemeRefresher.Provider
           value={{ refreshTheme: this.refreshThemeColors }}
         >
@@ -92,6 +96,9 @@ class MyApp extends App {
               h1,
               h2,
               h3 {
+                color: ${theme.colors.primary};
+              }
+              a {
                 color: ${theme.colors.primary};
               }
             `}</style>

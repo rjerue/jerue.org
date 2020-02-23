@@ -32,6 +32,23 @@ const Navbar: React.FC = () => {
       </Link>
       <Box mx="auto" />
       <NavbarItem
+        href="https://www.linkedin.com/"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="LinkedIn Link"
+      >
+        <Text
+          as="i"
+          sx={{
+            ":hover": {
+              color: "highlight",
+            },
+          }}
+          fontSize={[5]}
+          className="fab fa-linkedin"
+        ></Text>
+      </NavbarItem>
+      <NavbarItem
         href="https://github.com/rjerue"
         target="_blank"
         rel="noreferrer"
@@ -44,15 +61,15 @@ const Navbar: React.FC = () => {
               color: "highlight",
             },
           }}
-          fontSize={[3, 4, 5]}
+          fontSize={[5]}
           className="fab fa-github"
         ></Text>
       </NavbarItem>
       <Button
         variant="transparent"
         sx={{
-          width: [20, 24, 32],
-          height: [20, 24, 32],
+          width: [32],
+          height: [32],
           p: 1,
           borderRadius: 99999,
           outline: "none",
@@ -78,8 +95,8 @@ const Navbar: React.FC = () => {
           <Text
             px={{ color: "background" }}
             as="i"
-            pt={[0, "1px", "2px"]}
-            fontSize={["12px", "15px", "19px"]}
+            pt={["2px"]}
+            fontSize={["19px"]}
             className="fas fa-fill-drip"
           />
         </Flex>

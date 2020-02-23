@@ -10,11 +10,16 @@ class MyDocument extends Document {
             src="https://kit.fontawesome.com/8fb79adcb6.js"
             crossOrigin="anonymous"
           />
-          <title>Ryan Jerue</title>
           <meta
             name="Description"
             content="Website and technical blog of Ryan Jerue, a Software engineer in Southern California"
           />
+          <link
+            rel="shortcut icon"
+            type="image/x-icon"
+            href="/static/favicon.ico"
+          />
+          .
         </Head>
         <body>
           <Main />
