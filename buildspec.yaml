@@ -34,6 +34,21 @@ phases:
         --cache-control="max-age=0, no-cache, no-store, must-revalidate" 
         ./out s3://${DeployBucket}/ --exclude "*" --include "*.html"
       - >
+      - >
+        (cd out &&
+          find . -type f -name '*.html' | while read HTMLFILE; do
+            HTMLFILESHORT=${HTMLFILE:2}
+            HTMLFILE_WITHOUT_INDEX=${HTMLFILESHORT::${#HTMLFILESHORT}-11}
+
+            # cp /about/index.html to /about
+            aws s3 cp s3://${DeployBucket}/${HTMLFILESHORT} \
+              s3://${DeployBucket}/$HTMLFILE_WITHOUT_INDEX
+
+            if [ $? -ne 0 ]; then
+              echo "***** Failed renaming build to ${DeployBucket} (html)"
+              exit 1
+            fi
+          done && cd ..)
         aws cloudfront create-invalidation --distribution-id ${Distribution} 
         --paths "/*"
 artifacts:
