@@ -39,7 +39,6 @@ phases:
             HTMLFILESHORT=${HTMLFILE:2}
             HTMLFILE_WITHOUT_INDEX=${HTMLFILESHORT::${#HTMLFILESHORT}-11}
 
-            # cp /about/index.html to /about
             echo ${HTMLFILESHORT} $HTMLFILE_WITHOUT_INDEX
             aws s3 cp s3://${DeployBucket}/${HTMLFILESHORT} s3://${DeployBucket}/${HTMLFILE_WITHOUT_INDEX}
 
