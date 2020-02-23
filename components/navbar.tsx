@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
       </Link>
       <Box mx="auto" />
       <NavbarItem
-        href="https://www.linkedin.com/"
+        href="https://www.linkedin.com/in/rjerue"
         target="_blank"
         rel="noreferrer"
         aria-label="LinkedIn Link"
