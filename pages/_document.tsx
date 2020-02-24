@@ -19,7 +19,15 @@ class MyDocument extends Document {
             type="image/x-icon"
             href="/static/favicon.ico"
           />
-          .
+          <link rel="manifest" href="/static/manifest.json" />
+          <link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
+          <meta name="apple-mobile-web-app-title" content="Ryan Jerue" />
+          <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="default"
+          />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="mobile-web-app-capable" content="yes" />
         </Head>
         <body>
           <Main />

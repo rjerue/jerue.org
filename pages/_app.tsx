@@ -81,6 +81,7 @@ class MyApp extends App {
       <>
         <Head>
           <title>Ryan Jerue</title>
+          <meta name="theme-color" content={`${theme.colors.primary}`} />
         </Head>
         <ThemeRefresher.Provider
           value={{ refreshTheme: this.refreshThemeColors }}

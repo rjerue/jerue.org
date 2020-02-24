@@ -6,6 +6,8 @@
     "build": "next build",
     "start": "next start",
     "export": "next export",
+    "be": "yarn build && yarn export",
+    "bet": "yarn be && npx serve out",
     "type-check": "tsc"
   },
   "main": "pages/index.tsx",
@@ -20,16 +22,13 @@
     "@types/react": "16.9.11",
     "@types/react-dom": "16.9.3",
     "@zeit/next-css": "1.0.1",
-    "autoprefixer": "9.7.4",
     "emotion-theming": "^10.0.27",
     "humanize-string": "^2.1.0",
     "next": "^9.2.1",
     "next-offline": "^5.0.0",
-    "postcss-import": "12.0.1",
     "react": "latest",
     "react-dom": "latest",
     "rebass": "^4.0.7",
-    "tailwindcss": "^1.2.0",
     "titleize": "^2.1.0",
     "typescript": "3.6.4"
   },
@@ -40,6 +39,7 @@
     "@types/loadable__component": "^5.10.0",
     "@types/mdx-js__react": "^1.5.0",
     "@types/rebass": "^4.0.4",
-    "prettier": "1.19.1"
+    "prettier": "1.19.1",
+    "serve": "^11.3.0"
   }
 }
