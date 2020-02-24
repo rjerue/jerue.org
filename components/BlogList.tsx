@@ -12,14 +12,14 @@ export interface BlogListProps {
   }[];
 }
 
-const BlogList = ({ blogs }: BlogListProps) => {
+const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
   return (
     <Box as="section" mt={2}>
       <Header>Blog Posts</Header>
       <Box paddingX={3} pt={1}>
         {blogs.map(({ intro, slug }) => {
           return (
-            <Link aria-role="button" href={`/blog/${slug}`} key={slug}>
+            <Link href={`/blog/${slug}`} key={slug}>
               <Box
                 mb={3}
                 sx={{

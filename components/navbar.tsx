@@ -2,7 +2,7 @@ import React from "react";
 import { Flex, Box, Text, Link, LinkProps, Button } from "rebass";
 import { useRefreshTheme } from "../pages/_app";
 
-const NavbarItem: React.FunctionComponent<LinkProps> = ({
+const NavbarItem: React.FC<LinkProps> = ({
   children,
   href = "#",
   ...props
@@ -85,7 +85,7 @@ const Navbar: React.FC = () => {
           },
         }}
         ml={4}
-        onClick={e => {
+        onClick={(e): void => {
           e.preventDefault();
           refreshTheme();
         }}

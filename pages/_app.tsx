@@ -48,10 +48,12 @@ async function refreshThemeColorsFromColormind(): Promise<Partial<Colors>> {
 }
 
 const ThemeRefresher = React.createContext({
-  refreshTheme: async () => {},
+  refreshTheme: async () => {
+    console.error("No Theme to refresh!");
+  },
 });
 
-export function useRefreshTheme() {
+export function useRefreshTheme(): () => Promise<void> {
   const { refreshTheme } = React.useContext(ThemeRefresher);
   return refreshTheme;
 }
@@ -61,7 +63,7 @@ class MyApp extends App {
     theme: preset,
   };
 
-  refreshThemeColors = async () => {
+  refreshThemeColors = async (): Promise<void> => {
     this.setState({
       theme: {
         ...preset,
@@ -73,7 +75,7 @@ class MyApp extends App {
     });
   };
 
-  render() {
+  render(): JSX.Element {
     const { Component, pageProps } = this.props;
     const { theme } = this.state;
     // console.log(theme);
