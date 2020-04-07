@@ -125,7 +125,7 @@ Resources:
         # Linux container with node installed
         ComputeType: BUILD_GENERAL1_SMALL
         Type: LINUX_CONTAINER
-        Image: "aws/codebuild/nodejs:8.11.0"
+        Image: "aws/codebuild/standard:4.0"
         EnvironmentVariables:
           - Name: DeployBucket
             Value: !Ref DeployBucket 

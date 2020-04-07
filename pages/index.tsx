@@ -34,10 +34,12 @@ const HomePage: NextPage<BlogListProps> = ({ blogs }) => {
 HomePage.getInitialProps = async () => {
   const blogs = await Promise.all(
     posts.map(async post => {
-      const { intro } = await import(`./blog/${post}.mdx`);
+      const { intro, date, hidden } = await import(`./blog/${post}.mdx`);
       return {
         intro: intro as string,
         slug: post,
+        date: date as string,
+        hidden: hidden || false,
       };
     })
   );

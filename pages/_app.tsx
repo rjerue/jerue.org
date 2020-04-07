@@ -2,8 +2,10 @@ import React from "react";
 import App from "next/app";
 import Head from "next/head";
 import { ThemeProvider } from "emotion-theming";
+import { MDXProvider } from "@mdx-js/react";
 import preset from "@rebass/preset";
 import Layout from "../layouts/default";
+import CodeBlock from "../components/CodeBlock";
 
 interface Colors {
   text: string;
@@ -58,6 +60,10 @@ export function useRefreshTheme(): () => Promise<void> {
   return refreshTheme;
 }
 
+const components = {
+  code: CodeBlock,
+};
+
 class MyApp extends App {
   state = {
     theme: preset,
@@ -89,9 +95,11 @@ class MyApp extends App {
           value={{ refreshTheme: this.refreshThemeColors }}
         >
           <ThemeProvider theme={this.state.theme}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            <MDXProvider components={components}>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </MDXProvider>
             <style jsx global>{`
               body {
                 background-color: ${theme.colors.background};
@@ -100,6 +108,15 @@ class MyApp extends App {
               h2,
               h3 {
                 color: ${theme.colors.primary};
+              }
+              h2:first-of-type {
+                margin-bottom: 2px;
+              }
+              h3,
+              h4,
+              h5,
+              h6 {
+                margin: 0;
               }
               a {
                 color: ${theme.colors.primary};
