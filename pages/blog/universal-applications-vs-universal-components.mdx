@@ -1,0 +1,150 @@
+export const intro = `I love the web, but I spent a large portion of the last few years woking on
+native apps. I had a dream of consolidating two applications onto a single tech
+stack. We did it, but I learned a lot of lessons and maybe would do it again
+differently.
+`;
+export const date = "5/30/2020";
+
+## Universal Applications vs. Universal Components
+
+<p>{intro}</p>
+
+### The Premise
+
+We started as a small team needed to support two different codebases that did
+essentially the same thing. A mobile app that let customers perform self service
+actions, and a website that did the same thing. Even a lot of the designs
+between all of the products looked very similar. I had an idea after listening
+to a [talk on react-native-web](https://www.youtube.com/watch?v=HLWM2uhv2wI).
+Why can't we do the same thing?
+
+### The Universal Application
+
+Imagine a world where you took react-native primatives and had them just render
+to web primatives. A react-native application is in fact mostly just JavaScript.
+If one is using a state management solution such as Redux, MobX, or Apollo, you
+can even just write all that logic once. It allows you to treat your entire
+front end as a monolithic application with a single source of truth for business
+logic and state.
+
+All React really adds outside of javascript is the additional JSX elements,
+which are in the end just transpiled down to js anyway. Could these be
+abstracted? Easy to think about with `View` and `Text`, but things get a lot
+more interesting with navigation or behaviors realted to some platform specific
+characteristics like touch gestures (swipe) or a mouse hover. Facebook, the
+author of both React and React Native don't even look to do this on their own
+Facebook app.
+
+### Native vs. The Modern Web
+
+A new showdown really happening in the application development space is a battle
+between the web and native apps. Interesting schisms have formed in that a PWA
+can look like an app, but actually be written like a website. Browsers even
+allow for system calls to access things like sensors and cameras that apps have
+historically had a leg up on.
+
+Often, apps have an advantage with performace as they can things a little bit
+closer to the metal. There's less overhead. With more direct access to the
+operating system, there is more things apps can do to make them performant.
+That's not to say websites can't be through new static site generation
+techniques, prerendering, bundle splitting, etc. There's just a level of
+overhead that a browser and js engine will always have.
+
+Native apps also have access to specific things such as a customer's MAC
+address, device id, and contacts. Things often not important to a the performace
+of an application, but very important to collecting data for advertisment
+purposes.
+
+### The Universal Component
+
+If I were to architect another application like I did in the past, I'd take an
+extreme focus on creating universal components. Universal components are often
+as easy to think of as maybe just a button. These buttons could all be a certain
+color, have a certain roundness, and be sized consistently. Universal component
+may also be as complex as something like layout where things get arranged on the
+screen consistently as the viewport changes sizes. They may also include
+business logic. In fact, commonalities between business logic are probably the
+most important part as that's where the majority of bugs get introduced into
+things.
+
+I liked to think of things in 3 parts: Data, Layout, Visual.
+
+- Data determines what actually goes onto the screen. The data layer is what has
+  the business logic, network calls, state management, etc. With React I like
+  creating hooks and render props that pass this data to other places.
+- Layout is where things go onto the screen. At some size, should things be in a
+  row or column? Should one element be a certain size or another.
+- Visual elements can be built or pulled out of a more classic component library
+  like [react-native-paper](https://github.com/callstack/react-native-paper).
+  You can even share accessibility properties and tests!
+
+Any code between that should be a page's actual implamentation. Say you have a
+data layer to get a customer name and then do some action.
+
+```jsx
+import React from "react";
+import { useCustomerName, useAction } from "./my-actions";
+import { Layout } from "./my-layout";
+import { Title, Button } from "./my-lib";
+
+export const UniversalComponent = () => {
+  const { name } = useCustomerName();
+  const { action } = useAction();
+
+  return (
+    <Layout>
+      <Title>{name}</Title>
+      <Button
+        testID="my-button"
+        accessibilityLabel="Perform the action"
+        onPress={action}
+      >
+        Do this
+      </Title>
+    </Layout>
+  );
+};
+```
+
+In a way, this actually isn't different that good construction of regular react
+components. But where do things get specific?
+
+### #Platform Specific Elements
+
+The abstractions for some things such as routing aren't great. There's also
+platform specific elements that will occasionally catch you.
+
+- In terms of routing, most folks don't even use react-native on it's own, but
+  rather some solution such as [react-navigation](https://reactnavigation.org/).
+  React navigation does "work" on the web, but there are so many fantastic web
+  based routing solutions out there. Additionally, if you want to use something
+  like NextJS as your router, things get even more difficult.
+- Native libraries will sometimes just be needed. We needed to integrate a
+  Salesforce library onto each platform and there was no way that it could be
+  universal. Ways of doing push notifications and analytics sometimes fall into
+  these traps too.
+
+You can make your own kind of music in the form of abstractions as well. For
+example for analytics, it may make sense to just make a react hook called
+`useTrackEvent` or something that fires off to the correct analytics provider be
+it one on the web or in some native sdk.
+
+### Do it all over again
+
+I think I would still do it all over again. I would probably be a lot more
+careful about crafting these components. A suggested way of putting the project
+togeather would be to use a monorepo similar to
+[this template](https://github.com/brunolemos/react-native-web-monorepo/tree/master/packages)
+and to keep your components in between the platforms that you're developing.
+
+### Addendum
+
+In a way, I wish I could just write PWAs. Safari unfortunately does not furfill
+the entire PWA spec. There's also often a somewhat dark side to app development
+in that your data is being harvested to create things like device graphs and
+relations between you and your contacts. Like it or not, this is nearly the
+entire point of sites like Facebook, Twitter, and Google and why they all have
+native apps. Many would rather give this data than write a check to use an app
+or social network, and that's ok.
+
+<div>Published {date}</div>
