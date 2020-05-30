@@ -137,6 +137,23 @@ togeather would be to use a monorepo similar to
 [this template](https://github.com/brunolemos/react-native-web-monorepo/tree/master/packages)
 and to keep your components in between the platforms that you're developing.
 
+There's also lots of tools that really make the process go a lot smoother today
+too. Expo is modular and can run on native platforms and the web. Component
+libraries are a lot more built out and meant to work on both. I wrote and open
+sourced a few utilities too that abstracted away a lot of the common problems
+that I ran into:
+
+- [react-native-dimensions-hooks](https://www.npmjs.com/package/react-native-dimensions-hooks):
+  Exposes the react native dimensions API in the form a hook, and works with
+  react-native-web!
+- [react-native-viewport-helpers](https://www.npmjs.com/package/react-native-viewport-helpers):
+  I only ever wrote one helper, and it was to check if something was in the
+  viewport. I used for it analytics events.
+- [shadowgiver](https://www.npmjs.com/package/shadowgiver): Shadows actually
+  generate inconsistently between iOS, Android, and Web. This library seeked to
+  allow users to generate shadow styles that would look the same on all
+  platforms.
+
 ### Addendum
 
 In a way, I wish I could just write PWAs. Safari unfortunately does not furfill
