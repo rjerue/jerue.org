@@ -32,6 +32,23 @@ const Navbar: React.FC = () => {
       </Link>
       <Box mx="auto" />
       <NavbarItem
+        href="https://twitter.com/rjerue"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Twitter Link"
+      >
+        <Text
+          as="i"
+          sx={{
+            ":hover": {
+              color: "highlight",
+            },
+          }}
+          fontSize={[5]}
+          className="fab fa-twitter"
+        ></Text>
+      </NavbarItem>
+      <NavbarItem
         href="https://www.linkedin.com/in/rjerue"
         target="_blank"
         rel="noreferrer"
