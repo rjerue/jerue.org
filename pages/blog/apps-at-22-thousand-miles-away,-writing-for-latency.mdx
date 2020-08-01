@@ -124,15 +124,15 @@ splitting for "free." However as with many things, it needs to be done properly.
 
 React, Vue, Svelte, and other applications are like ogres, and by that they have
 layers. Looking at the React with Next.js paradigm, root level components that
-load some a library and have children also require their children to have it
-loaded. As a result, one should be mindful of the the libraries that are loaded
-at the \_document and \_app levels as they will be inherited by all pages. One
-can audit the size of their bundles though using tools like
+load some library and have children require their children to load it. As a
+result, one should be mindful of the the libraries that are loaded at the
+\_document and \_app levels as they will be inherited by all pages. One can
+audit the size of their bundles though using tools like
 [webpack bundle analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer).
 There are even special
 [implementations that hook into a developer's favorite libraries such as Next.js](https://www.npmjs.com/package/@next/bundle-analyzer).
-If see large bundles consider moving it to a non root level component, finding a
-smaller library, or just implement it outright.
+If large bundles occur consider either moving the library to a component further
+downstream, finding a smaller library, or just implementing it outright.
 
 ### Rethinking Images
 
@@ -224,32 +224,32 @@ Consider this picture of the Greatest Quarterback of All Time:
 
 This one will load alongside the HTML. No network request is needed!
 [Chris Coyier's CSS tricks has a fantastic explanation of what goes into how data URIs if one would like to learn more](https://css-tricks.com/data-uris/)!
-However, do realize that inlining images is not actually always the best idea
-sometimes it will make a website go slower. This is because the size of that
-image is often several kilobytes, and if placed it into the HTML file will make
-it huge. Then, the network will take longer to download the larger file and the
-browser longer to parse it. As a result, it is recommended to use this technique
-for small files or things that will be immediately seen on the screen. To
-mitigate this, consider sizing the image exactly to how it will be sized on the
-screen, and running it through a compression tool such as
+However, do realize that inlining images is not always the best idea. Sometimes
+it will make a website go slower. This is because the size of that image is
+often several kilobytes, and if placed it into the HTML file will make it huge.
+Then, the network will take longer to download the larger file and the browser
+longer to parse it. As a result, it is recommended to use this technique for
+small files or things that will be immediately seen on the screen. To mitigate
+this, consider sizing the image exactly to how it will be sized on the screen,
+and running it through a compression tool such as
 [squoosh](https://squoosh.app/).
 
 ### Optimizing Remote Scripts and Assets
 
 Developers care about what people do when they visit a website. Professionally I
 have had to add analytics to almost every website and app that I have written.
-Things like Google analytics usually work with a `<script/>` tag. This means it
+Things like Google Analytics usually work with a `<script/>` tag. This means it
 gets loaded after the HTML. Things like fonts, external style sheets, and more
 are also loaded after the initial HTML. It is possible to base64 fonts, move
 style sheets inline, and even put the content of a remote script inside of a
 `<script>` tag. However, these things do have their costs. Particularly they
-increase the size of that initial render and make things small. The good news is
-that browsers will actually cache fonts pretty well. If an HTTP header is added
-to what is serving assets then it will at least be only loaded once.
-`"Cache-Control: max-age=31536000"` for example ensures that the file is cached
-and will live in the cache for a year. This is fine for things such as fonts,
-but be weary for doing this for anything dynamic as the user will receive stale
-content.
+increase the size of that initial render and make it take longer. The good news
+is that browsers will actually cache things well enough if instructed to. If an
+HTTP header is added to what is serving assets then it will at least be only
+loaded once. `"Cache-Control: max-age=31536000"` for example ensures that the
+file is cached and will live in the cache for a year. This is fine for things
+such as fonts, but be weary for doing this for anything dynamic as the user will
+receive stale content.
 
 Depending on the analytics script used, one could get away with using an old
 version. If one wanted to capture things before the script loads, which could be
@@ -260,13 +260,13 @@ can be interpreted by the browser.
 ### Prevent Chained Requests
 
 A chained request is when one HTTP request can only be made based on the output
-of a previous http request. This is a common issue that occurs when working with
-REST APIs. Often REST APIs return a reference that then are used to hit another
+of a previous HTTP request. This is a common issue that occurs when working with
+REST APIs. Often REST APIs return a reference that are then used to hit another
 API endpoint. Take an example of an API that manages bookstores; say one wants
 to find all the books and their authors.
 
 1. Query all bookstores to get `BookStoreId`
-2. Query all books per `BookStoreIds` to get `BookIds`
+2. Query all books per `BookStoreId` to get `BookIds`
 3. Query `Books` on `BookStoreId` to get `AuthorId`
 4. Query `Authors` on `AuthorId` to get the `AuthorName`
 
@@ -279,11 +279,11 @@ APIs that they are integrating into. However serverless frameworks make it easy
 for one to just make some API route to handle these sorts of things.
 
 One could use a tool like [Vercel](https://vercel.com/),
-[Glitch](https://glitch.com/), or an
+[Netlify](https://www.netlify.com/products/functions/), or an
 [AWS Lambda](https://aws.amazon.com/lambda/) to at least do the "chained" aspect
 of this behind some API where there is little network latency. However, as more
 use cases arise, one may just have to keep creating bespoke API routes to handle
-such problems. It is a solution that unfortunately has the excuse of _this does
+such problems. It is a solution that unfortunately has the problem of _this does
 not scale._
 
 However, say one does control the API layer, or at least wants to invest in it.
@@ -336,17 +336,18 @@ follows that paradigm too, just implement a slice of what is to be queried.
 Values get passed from resolver to resolver based on the schema one constructs.
 GraphQL clients on the front end such as
 [Apollo](https://www.apollographql.com/docs/react/) and
-[Relay](https://relay.dev/) also allow state to largely managed as a function of
-what the server returns too to allow for caching, optimistic renders, and more.
+[Relay](https://relay.dev/) also allow client state to be largely managed as a
+function of what the server returns too to allow for caching, optimistic
+renders, and more. This could allow you to trim code where one would use Redux
+or React Context.
 
 An addendum on the topic of network requests and data is that often one can
 employ an eager loading pattern as opposed to lazy loading data. Architectures
-that eager loaded all of the user's information onto a server after they logged
-in have solved this challenge in the past. While the app still lazy loaded the
-information, the HTTP requests generally only took as long as the latency. This
-is a great pattern to use if calls that would ordinarily be lazy loaded by the
-client ordinarily take a long time and are pushed over the edge with the
-addition of latency.
+that eager load all of the user's information onto a server after they logged in
+have solves this challenge. While the app still lazy loads the information, the
+HTTP requests generally only took as long as the latency. This is a great
+pattern to use if calls that would be lazy loaded by the client ordinarily take
+a long time and are pushed over the edge with the addition of latency.
 
 ### How to Emulate Latency
 
@@ -365,17 +366,18 @@ latency through the following:
 7. Hit the dropdown that should still say `online`.
 8. Select the newly created `Latency` profile.
 
-In the future, just need to select latency from the dropdown and not create the
-profile every time. Feel free to edit it to add more or less latency.
+In the future, just to select latency from the dropdown. A profiles does not
+need created every time. Feel free to edit it to add more or less latency.
 
 ### Conclusion
 
-Even on non-ideal connections, web apps do not have to have bad experiences.
+Even on non-ideal connections, web apps do not need to have poor experiences.
 There are so many tools and strategies that exist that allow for the creation of
-snappy and delightful user experiences. When designing for the "worst" in mind,
-often better experiences are also created for those with the best of network
-conditions. It is not just in developing countries where this happens either.
-Very high value interactions could happen with customers in connected aircraft
-or with residential satellite connections. Not every solution is perfect, like
-most there are tradeoffs and I hope to have given one the knowledge to know how
-to make the best choice. Let us continue to make the web inclusive for everyone.
+snappy and delightful user experiences. While designing for the "worst" in mind,
+developers often craft better experiences for those with the best of network
+conditions as well. It is not just in developing countries where poor
+connectivity occurs either. Very high value interactions could happen with
+customers in connected aircraft,residential satellite connections, and over
+cellular. Not every solution is perfect, like most there are tradeoffs and I
+hope to have given one the knowledge to know how to make the best choices. Let
+us continue to make the web inclusive for everyone.
