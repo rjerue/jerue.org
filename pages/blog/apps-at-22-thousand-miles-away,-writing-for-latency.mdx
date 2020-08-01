@@ -3,13 +3,13 @@ Satellites in geostationary orbit have roughly a minimum of 500ms of latency. Ty
 Despite the challenges that high latency provides, it is still possible to create applications that provide delightful user
 experiences. Many of these patterns make sense outside high latency environments too. Here is how one can do it.`;
 
-export const date = "7/29/2020";
+export const date = "8/1/2020";
 
-## Apps at 22 Thousand Miles Away, Writing for High Latency
+## Apps At 22 Thousand Miles Away, Writing For High Latency
 
 <p>{intro}</p>
 
-### What is Latency?
+### What Is Latency?
 
 At one point, the late senator Ted Stevens described the internet as a
 [series of tubes](https://knowyourmeme.com/memes/series-of-tubes). While maybe
@@ -39,7 +39,7 @@ reasons to distribute a system too related to redundancy and scale. However when
 writing applications for customers of mine in addition to the usual challenge,
 all of the traffic must go through a satellite in geostationary orbit.
 
-### Why can Latency be high?
+### Why Can Latency Be High?
 
 As stated before, signals cannot go faster than the speed of light (though if
 you can do this, I would love to take you out to lunch). When a network request
@@ -64,7 +64,7 @@ from some level of latency be it due to network setup or distance to a tower.
 None of this is even taking into account additional time that may need to be
 taken in regards to DNS and TCP.
 
-### How can we fix it?
+### How Can We Fix It?
 
 It's simple: ~~we kill the Batman~~ Minimize the number of hops done over the
 network. As a developer, we unfortunately cannot change a user's minimum latency
