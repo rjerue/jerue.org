@@ -1,7 +1,7 @@
 export const intro = `In my current role, I have had to write lots of web applications that run over satellite internet. 
 Satellites in geostationary orbit have roughly a minimum of 500ms of latency. Typically, users notice latency after 120ms.
 Despite the challenges that high latency provides, it is still possible to create applications that provide delightful user
-experiences. Many of these patterns make sense outside high latency environments too. Here's how you can do it.`;
+experiences. Many of these patterns make sense outside high latency environments too. Here is how one can do it.`;
 
 export const date = "7/29/2020";
 
@@ -15,29 +15,29 @@ At one point, the late senator Ted Stevens described the internet as a
 [series of tubes](https://knowyourmeme.com/memes/series-of-tubes). While maybe
 naive, it is an analogy that can be leveraged. Often the most important internet
 connectivity elements are speed, bandwidth, and latency. Say these tubes had
-water flowing though them. Speed is pretty self explanatory, it's how fast the
+water flowing though them. Speed is pretty self explanatory, it is how fast the
 water goes through the pipe. Bandwidth is how wide the pipe is, faster speeds at
 higher bandwidths mean more water can make it through. This is most often how
 internet speed is advertised; some amount of data sent over a certain amount of
 time. Now say the water only goes through the tube when a faucet is turned on.
-The amount of time between turning the facet and water coming out: that's
+The amount of time between turning the facet and water coming out: that is
 latency.
 
 There are lots of causes for latency in a computer application. The primary one
-being how physically far you are from what you're trying to connect to. Any
+being how physically far one is from what they are trying to connect to. Any
 signal is limited by the laws of physics and nothing seems to move faster than
-the speed of light. Because of this, you could have the most expensive fiber
-optic cable that money can buy and if you are trying to connect to something on
-the opposite end of the world, you will still see latency.
+the speed of light. Because of this, one could have the most expensive fiber
+optic cable that money can buy and if one is trying to connect to something on
+the opposite end of the world, one will still see latency.
 
 Often, when writing applications we make use of distributed systems. This
 website for example is hosted on a CDN, aka a content delivery network. CDNs
-create global edge nodes that are geographically closer to customers. If you're
-in California, you would connect to a server there or close to there, whereas in
-Europe you would instead connect to one likely in Europe. There are lots of
-reasons to distribute a system too related to redundancy and scale. However in
-addition to the usual challenge, all of the traffic I have had to write
-applications for must go through a satellite in geostationary orbit.
+create global edge nodes that are geographically closer to customers. If in
+California, one would connect to a server there or close to there, whereas in
+Europe one would instead connect to one likely in Europe. There are lots of
+reasons to distribute a system too related to redundancy and scale. However when
+writing applications for customers of mine in addition to the usual challenge,
+all of the traffic must go through a satellite in geostationary orbit.
 
 ### Why can Latency be high?
 
@@ -86,11 +86,11 @@ these techniques in native mobile apps.
 
 In my opinion, progressive rendering is by far the most useful thing one can do
 to make their web app seem snappy on even the worst of network conditions. With
-progressive rendering you render something in your HTML prior to the JavaScript
+progressive rendering one renders something in HTML prior to the JavaScript
 loading so that the user sees some content. Typically, when websites are loaded,
 the first thing returned is the HTML. The HTML then makes some reference to
 additional JavaScript needs to be loaded. The JavaScript is then loaded over an
-additional network request and is parsed by your browser. The time for
+additional network request and is parsed by one's browser. The time for
 JavaScript code to load is enough of a problem and maybe even deserving of
 [folks fat shaming bundle sizes on twitter](https://twitter.com/slightlylate).
 
@@ -112,38 +112,38 @@ generated.
 
 It is a fact of life that web apps may need some JavaScript in order to run
 properly. There are some strategies one can take to cut down on what JavaScript
-is needed. The most popular is a technique called bundle splitting. When you
-split your bundle, there are several JavaScript bundles that get generated as
+is needed. The most popular is a technique called bundle splitting. When
+splitting a bundle, there are several JavaScript bundles that get generated as
 opposed to one. Only when things from a particular bundle are needed does it get
 loaded. Typically, this is managed on a per webpage level. The first render has
 the unique JavaScript needed for itself as well as any common JavaScript used on
 all pages. Subsequent page loads do not need to load that common js again. Often
 these tools are pretty sophisticated and can even recognize if JavaScript is
-needed on several, but not all, pages. These days, lots of tools give you bundle
+needed on several, but not all, pages. These days, lots of tools give bundle
 splitting for "free." However as with many things, it needs to be done properly.
 
 React, Vue, Svelte, and other applications are like ogres, and by that they have
 layers. Looking at the React with Next.js paradigm, root level components that
 load some a library and have children also require their children to have it
 loaded. As a result, one should be mindful of the the libraries that are loaded
-at the \_document and \_app levels as they'll be inherited by all pages. One can
-audit the size of their bundles though using tools like
+at the \_document and \_app levels as they will be inherited by all pages. One
+can audit the size of their bundles though using tools like
 [webpack bundle analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer).
-There's even special
-[implementations that hook into your favorite libraries such as Next.js](https://www.npmjs.com/package/@next/bundle-analyzer).
+There are even special
+[implementations that hook into a developer's favorite libraries such as Next.js](https://www.npmjs.com/package/@next/bundle-analyzer).
 If see large bundles consider moving it to a non root level component, finding a
-smaller library, or just implement it yourself.
+smaller library, or just implement it outright.
 
 ### Rethinking Images
 
-If you place an `img` tag on a screen with a remote `src` property. What
+If an `img` tag is placed on a screen with a remote `src` property. What
 happens?
 
 ```html
 <img src="/static/brady.png" alt="handsome quarterback" />
 ```
 
-You should see tb12's perfect face:
+One will see Tom Brady's perfect face:
 
 <div style={{ display: "flex", justifyContent: "center" }}>
   <img
@@ -153,23 +153,23 @@ You should see tb12's perfect face:
   />
 </div>
 
-More importantly though, what is the browser doing? There's two html requests
+More importantly though, what is the browser doing? There are two HTTP requests
 that happen to get that image onto the page:
 
 1. The HTML is loaded
 2. The image is retrieved from a src tag.
 
-On a high latency connection, you won't see anything for that time between when
-the html is initially loaded and the network request for the image completes.
-That's sorta a bummer. Can you trim that network request? Often the answer is
-yes!
+On a high latency connection, one will not see anything for that time between
+when the html is initially loaded and the network request for the image
+completes. Thats a major bummer! But, can that network request be removed? Yes
+it can!
 
-There are two methods for doing this. The first is if you are using something
-that is more of an icon. If doing that, consider using an SVG, aka Scalable
-Vector Graphics, and putting it inline to your HTML. SVGs are handled natively
-by the browser and one can even apply CSS to them. If using React (on the web),
-SVG works like any other HTML tag. They are lossless (not effected by screen
-resolutions) and use math to draw onto the screen.
+There are two methods for doing this. The first is if something that is more of
+an icon. If doing that, consider using an SVG, aka Scalable Vector Graphics, and
+putting it inline to HTML. SVGs are handled natively by the browser and one can
+even apply CSS to them. If using React (on the web), SVG works like any other
+HTML tag. They are lossless (not effected by screen resolutions) and use math to
+draw onto the screen.
 
 ```svg
 <svg width="100" height="100">
@@ -203,7 +203,7 @@ resolutions) and use math to draw onto the screen.
 
 Back to TB12, while his face is perfect, it would be difficult to turn into an
 SVG image. In this case, one could use a data URI. Using this method involves
-base64 encoding your image and putting that generated string into the source of
+base64 encoding an image and putting that generated string into the source of
 the image.
 
 Consider this picture of the Greatest Quarterback of All Time:
@@ -223,56 +223,57 @@ Consider this picture of the Greatest Quarterback of All Time:
 </div>
 
 This one will load alongside the HTML. No network request is needed!
-[Chris Coyier's CSS tricks has a fantastic explanation of what goes into how data URIs if you want to learn more](https://css-tricks.com/data-uris/)!
+[Chris Coyier's CSS tricks has a fantastic explanation of what goes into how data URIs if one would like to learn more](https://css-tricks.com/data-uris/)!
 However, do realize that inlining images is not actually always the best idea
-sometimes it'll make your website go slower. This is because you take the size
-of that image which is often several kilobytes, and place it into your HTML file
-hence making your html file huge. As a result, you'll likely only want to use
-this for small images or images that are going to be seen right away.
+sometimes it will make a website go slower. This is because the size of that
+image is often several kilobytes, and if placed it into the HTML file will make
+it huge. Then, the network will take longer to download the larger file and the
+browser longer to parse it. As a result, it is recommended to use this technique
+for small files or things that will be immediately seen on the screen.
 
 ### Optimizing Remote Scripts and Assets
 
-We care about what people do when they visit a website. Professionally I have
-had to add analytics to almost every website I have written. Things like Google
-analytics usually work with a `<script/>` tag. This means it gets loaded after
-your html. Things like fonts, external style sheets, and more are also loaded
-after your initial html. It is possible to base64 fonts, move style sheets
-inline, and even put the content of a remote script inside of a `<script>` tag.
-However, these things do have their costs. Particularly they increase the size
-of that initial render and make things small. The good news is that browsers
-will actually cache fonts pretty well. If you add a header to what is serving
-your assets then it will at least be only loaded once.
+Developers care about what people do when they visit a website. Professionally I
+have had to add analytics to almost every website and app that I have written.
+Things like Google analytics usually work with a `<script/>` tag. This means it
+gets loaded after the HTML. Things like fonts, external style sheets, and more
+are also loaded after the initial HTML. It is possible to base64 fonts, move
+style sheets inline, and even put the content of a remote script inside of a
+`<script>` tag. However, these things do have their costs. Particularly they
+increase the size of that initial render and make things small. The good news is
+that browsers will actually cache fonts pretty well. If an HTTP header is added
+to what is serving assets then it will at least be only loaded once.
 `"Cache-Control: max-age=31536000"` for example ensures that the file is cached
 and will live in the cache for a year. This is fine for things such as fonts,
 but be weary for doing this for anything dynamic as the user will receive stale
 content.
 
-Depending on the analytics script you use, one could get away with using an old
-version. If you want to capture things before the script loads, which could be a
-long time, consider just taking the contents of the script and putting it onto
-your webpage in a `<script/>` tag. Anything in a script tag is just JavaScript
-and can be interpreted by the browser.
+Depending on the analytics script used, one could get away with using an old
+version. If one wanted to capture things before the script loads, which could be
+a long time, consider just taking the contents of the script and putting it onto
+a webpage in a `<script/>` tag. Anything in a script tag is just JavaScript and
+can be interpreted by the browser.
 
 ### Prevent Chained Requests
 
 A chained request is when one HTTP request can only be made based on the output
 of a previous http request. This is a common issue that occurs when working with
-REST APIs. Often REST APIs return a reference that you then use to hit another
-API endpoint. Take an example of an API that manages bookstores; let's say I
-wanted to find all the books and their authors.
+REST APIs. Often REST APIs return a reference that then are used to hit another
+API endpoint. Take an example of an API that manages bookstores; say one wants
+to find all the books and their authors.
 
 1. Query all bookstores to get `BookStoreId`
 2. Query all books per `BookStoreIds` to get `BookIds`
 3. Query `Books` on `BookStoreId` to get `AuthorId`
 4. Query `Authors` on `AuthorId` to get the `AuthorName`
 
-See the chained logic? Hopefully, one can design an API with just some sort of
-lookup functionality, or it make make sense to make a bespoke `getAuthorNames`
-route or something. Even if these APIs returned lightning quick, a bottleneck
-could exist because of the added latency of doing any network request.
-Unfortunately, one often does not own the APIs that they are integrating into.
-However serverless frameworks make it easy for one to just make some API route
-to handle these sorts of things.
+See the chained logic? One query requires the output of the previous. Hopefully,
+one can design an API with just some sort of lookup functionality, or it make
+make sense to make a bespoke `getAuthorNames` route or something. Even if these
+APIs returned lightning quick, a bottleneck could exist because of the added
+latency of doing any network request. Unfortunately, one often does not own the
+APIs that they are integrating into. However serverless frameworks make it easy
+for one to just make some API route to handle these sorts of things.
 
 One could use a tool like [Vercel](https://vercel.com/),
 [Glitch](https://glitch.com/), or an
@@ -282,10 +283,10 @@ use cases arise, one may just have to keep creating bespoke API routes to handle
 such problems. It is a solution that unfortunately has the excuse of _this does
 not scale._
 
-However, let's say you do control the API layer, or at least want to invest in
-it. What solution does scale? Does it involve chaining data to some nested
-document store? Automate the creation of the APIs? Machine learning? GPT-3? No
-way! One could solve this with some GraphQL.
+However, say one does control the API layer, or at least wants to invest in it.
+What solution does scale? Does it involve chaining data to some nested document
+store? Automate the creation of the APIs? Machine learning? GPT-3? No way! One
+could solve this with some GraphQL.
 
 ```graphql
 {
@@ -323,26 +324,26 @@ way! One could solve this with some GraphQL.
 }
 ```
 
-... and that's it. You would be done and it'd happen in a single HTTP request.
-No matter how much chaining.
+... and that is it. It would be done and happen in a single HTTP request. No
+matter how much chaining.
 
-There's a reason why GraphQL is so "hot." It's that it allows you to describe
-your data as opposed to say how to get it. On the server side of things it
-follows that paradigm too, you just implement a slice of what you want to query.
+There is a reason why GraphQL is so "hot." It is that it allows data to be
+described more explicitly and declaratively. On the server side of things it
+follows that paradigm too, just implement a slice of what is to be queried.
 Values get passed from resolver to resolver based on the schema one constructs.
 GraphQL clients on the front end such as
 [Apollo](https://www.apollographql.com/docs/react/) and
-[Relay](https://relay.dev/) also allow you to largely manage state as a function
-of what the server returns too to allow for caching, optimistic renders, and
-more.
+[Relay](https://relay.dev/) also allow state to largely managed as a function of
+what the server returns too to allow for caching, optimistic renders, and more.
 
 An addendum on the topic of network requests and data is that often one can
-employ an eager loading pattern as opposed to lazy loading data. I once used an
-architecture that eager loaded all of the user's information onto a server after
-they logged in. While the app still lazy loaded the information, the HTTP
-requests generally only took as long as the latency. This is a great pattern to
-use if calls that would ordinarily be lazy loaded by the client ordinarily take
-a long time and are pushed over the edge with the addition of latency.
+employ an eager loading pattern as opposed to lazy loading data. Architectures
+that eager loaded all of the user's information onto a server after they logged
+in have solved this challenge in the past. While the app still lazy loaded the
+information, the HTTP requests generally only took as long as the latency. This
+is a great pattern to use if calls that would ordinarily be lazy loaded by the
+client ordinarily take a long time and are pushed over the edge with the
+addition of latency.
 
 ### How to Emulate Latency
 
@@ -356,22 +357,22 @@ latency through the following:
 4. Create a profile name called `Latency` with the download speed of `10000`
    kb/s, an upload speed of `2000` kb/s, and a latency of `500` ms.
 5. Click `add`.
-6. Hit the `X` on the top right to close the popup and bring you back to the
-   network tab.
+6. Hit the `X` on the top right to close the popup and to return to the network
+   tab.
 7. Hit the dropdown that should still say `online`.
 8. Select the newly created `Latency` profile.
 
-In the future, you'll just need to select latency from the dropdown and not
-create the profile every time. Feel free to edit it to add more or less latency.
+In the future, just need to select latency from the dropdown and not create the
+profile every time. Feel free to edit it to add more or less latency.
 
 ### Conclusion
 
 Even on non-ideal connections, web apps do not have to have bad experiences.
 There are so many tools and strategies that exist that allow for the creation of
 snappy and delightful user experiences. When designing for the "worst" in mind,
-often you have even better experiences for those with the best of network
+often better experiences are also created for those with the best of network
 conditions. It is not just in developing countries where this happens either.
 Very high value interactions could happen with customers in connected aircraft
 or with residential satellite connections. Not every solution is perfect, like
 most there are tradeoffs and I hope to have given one the knowledge to know how
-to make the best choice. Let's continue to make the web inclusive for everyone.
+to make the best choice. Let us continue to make the web inclusive for everyone.
