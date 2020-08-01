@@ -18,7 +18,7 @@ const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
   return (
     <Box as="section" mt={2}>
       <Header>Blog Posts</Header>
-      <Box paddingX={3} pt={1}>
+      <Box paddingX={[0, 4]} pt={1}>
         {blogs.map(({ intro, slug, date, hidden }) => {
           return (
             !hidden && (
@@ -33,18 +33,22 @@ const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
                   }}
                 >
                   <Flex justifyContent="space-between" alignItems="center">
-                    <RLink href="" sx={{ textDecoration: "none" }}>
-                      <Header>{titleize(humanize(slug))}</Header>
-                    </RLink>
-                    <Text
-                      sx={{
-                        paddingLeft: 1,
-                        color: "primary",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {date}
-                    </Text>
+                    <Box maxWidth={["237px", "unset", "unset"]}>
+                      <RLink href="" sx={{ textDecoration: "none" }}>
+                        <Header>{titleize(humanize(slug))}</Header>
+                      </RLink>
+                    </Box>
+                    <Box alignSelf="center">
+                      <Text
+                        sx={{
+                          paddingLeft: 1,
+                          color: "primary",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {date}
+                      </Text>
+                    </Box>
                   </Flex>
                   <Text>{intro}</Text>
                 </Box>

@@ -17,9 +17,11 @@ naive, it is an analogy that can be leveraged. Often the most important internet
 connectivity elements are speed, bandwidth, and latency. Say these tubes had
 water flowing though them. Speed is pretty self explanatory, it's how fast the
 water goes through the pipe. Bandwidth is how wide the pipe is, faster speeds at
-higher bandwidths mean more water can make it through. Now say the water only
-goes through the tube when a faucet is turned on. The amount of time between
-turning the facet and water coming out: that's latency.
+higher bandwidths mean more water can make it through. This is most often how
+internet speed is advertised; some amount of data sent over a certain amount of
+time. Now say the water only goes through the tube when a faucet is turned on.
+The amount of time between turning the facet and water coming out: that's
+latency.
 
 There are lots of causes for latency in a computer application. The primary one
 being how physically far you are from what you're trying to connect to. Any
@@ -76,6 +78,9 @@ One can solve this through implementing the following:
 - Rethinking images
 - Optimizing remote scripts and assets
 - Prevent chained requests
+
+While many of these solutions are tailored for the web, one may also use many of
+these techniques in native mobile apps.
 
 ### Progressive Rendering
 
@@ -201,7 +206,7 @@ SVG image. In this case, one could use a data URI. Using this method involves
 base64 encoding your image and putting that generated string into the source of
 the image.
 
-Consider this picture of the Greatest Quartberback of All Time:
+Consider this picture of the Greatest Quarterback of All Time:
 
 ```html
 <img
@@ -218,14 +223,14 @@ Consider this picture of the Greatest Quartberback of All Time:
 </div>
 
 This one will load alongside the HTML. No network request is needed!
-[Chris Coyier's CSS tricks has a fantastic explanaton of what goes into how data URIs if you want to learn more](https://css-tricks.com/data-uris/)!
+[Chris Coyier's CSS tricks has a fantastic explanation of what goes into how data URIs if you want to learn more](https://css-tricks.com/data-uris/)!
 However, do realize that inlining images is not actually always the best idea
 sometimes it'll make your website go slower. This is because you take the size
 of that image which is often several kilobytes, and place it into your HTML file
 hence making your html file huge. As a result, you'll likely only want to use
 this for small images or images that are going to be seen right away.
 
-### Optimizing remote scripts and assets
+### Optimizing Remote Scripts and Assets
 
 We care about what people do when they visit a website. Professionally I have
 had to add analytics to almost every website I have written. Things like Google
@@ -248,7 +253,7 @@ long time, consider just taking the contents of the script and putting it onto
 your webpage in a `<script/>` tag. Anything in a script tag is just JavaScript
 and can be interpreted by the browser.
 
-### Prevent Chain Requests
+### Prevent Chained Requests
 
 A chained request is when one HTTP request can only be made based on the output
 of a previous http request. This is a common issue that occurs when working with
@@ -331,6 +336,14 @@ GraphQL clients on the front end such as
 of what the server returns too to allow for caching, optimistic renders, and
 more.
 
+An addendum on the topic of network requests and data is that often one can
+employ an eager loading pattern as opposed to lazy loading data. I once used an
+architecture that eager loaded all of the user's information onto a server after
+they logged in. While the app still lazy loaded the information, the HTTP
+requests generally only took as long as the latency. This is a great pattern to
+use if calls that would ordinarily be lazy loaded by the client ordinarily take
+a long time and are pushed over the edge with the addition of latency.
+
 ### How to Emulate Latency
 
 Seeing is believing, and testing what latency looks like is by far the best way
@@ -359,5 +372,6 @@ snappy and delightful user experiences. When designing for the "worst" in mind,
 often you have even better experiences for those with the best of network
 conditions. It is not just in developing countries where this happens either.
 Very high value interactions could happen with customers in connected aircraft
-or with residential satellite connections. Let's continue to make the web
-inclusive for everyone.
+or with residential satellite connections. Not every solution is perfect, like
+most there are tradeoffs and I hope to have given one the knowledge to know how
+to make the best choice. Let's continue to make the web inclusive for everyone.

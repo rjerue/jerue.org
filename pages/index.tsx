@@ -10,7 +10,7 @@ const HomePage: NextPage<BlogListProps> = ({ blogs }) => {
     <>
       <Box as="section" mt={2}>
         <Header>About me:</Header>
-        <Box as="ul" px={4}>
+        <Box as="ul" px={[2, 4]}>
           <Text as="li">
             Previously worked at NAVSEA, Charles River Development, and with the
             RIPPLES group at my alma mater, the University of Massachusetts
