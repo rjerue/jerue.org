@@ -19,8 +19,8 @@ const Layout: React.FC = ({ children }) => {
           <div>
             My name is Ryan Jerue. I am a Software Engineer at Viasat Inc. in
             Carlsbad, California. Most of the time, you can find me working with
-            JavaScript, TypeScript, React, React Native, Scala, Java, SQL, and
-            more.
+            JavaScript, TypeScript, React, React Native, Java, REST, GraphQL,
+            APIs, SQL, MongoDB, and more.
           </div>
         </Box>
 
