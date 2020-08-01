@@ -7,9 +7,9 @@ const HomePage: NextPage<BlogListProps> = ({ blogs }) => {
   return <BlogList blogs={blogs} />;
 };
 
-HomePage.getInitialProps = async () => {
+export const getStaticProps = async () => {
   const blogs = await Promise.all(
-    posts.map(async post => {
+    posts.map(async (post) => {
       const { intro, date, hidden } = await import(`./${post}.mdx`);
       return {
         intro: intro as string,
@@ -19,7 +19,7 @@ HomePage.getInitialProps = async () => {
       };
     })
   );
-  return { blogs };
+  return { props: { blogs } };
 };
 
 export default HomePage;

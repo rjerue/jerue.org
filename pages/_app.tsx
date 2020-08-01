@@ -36,9 +36,10 @@ async function refreshThemeColorsFromColormind(): Promise<Partial<Colors>> {
       },
     }
   )
-    .then(result => result.json())
+    .then((result) => result.json())
     .then(
-      data => data.result as [RGBColor, RGBColor, RGBColor, RGBColor, RGBColor]
+      (data) =>
+        data.result as [RGBColor, RGBColor, RGBColor, RGBColor, RGBColor]
     );
   return {
     text: makeColor(color[0]),
@@ -103,6 +104,7 @@ class MyApp extends App {
             <style jsx global>{`
               body {
                 background-color: ${theme.colors.background};
+                font-family: "verdana";
               }
               h1,
               h2,

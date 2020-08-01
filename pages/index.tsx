@@ -10,7 +10,7 @@ const HomePage: NextPage<BlogListProps> = ({ blogs }) => {
     <>
       <Box as="section" mt={2}>
         <Header>About me:</Header>
-        <Box as="ul" px={4}>
+        <Box as="ul" px={[2, 4]}>
           <Text as="li">
             Previously worked at NAVSEA, Charles River Development, and with the
             RIPPLES group at my alma mater, the University of Massachusetts
@@ -31,9 +31,9 @@ const HomePage: NextPage<BlogListProps> = ({ blogs }) => {
   );
 };
 
-HomePage.getInitialProps = async () => {
+export const getStaticProps = async () => {
   const blogs = await Promise.all(
-    posts.map(async post => {
+    posts.map(async (post) => {
       const { intro, date, hidden } = await import(`./blog/${post}.mdx`);
       return {
         intro: intro as string,
@@ -43,7 +43,7 @@ HomePage.getInitialProps = async () => {
       };
     })
   );
-  return { blogs };
+  return { props: { blogs } };
 };
 
 export default HomePage;
