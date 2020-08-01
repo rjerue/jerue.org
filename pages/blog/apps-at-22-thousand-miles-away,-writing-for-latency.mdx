@@ -95,7 +95,7 @@ JavaScript code to load is enough of a problem and maybe even deserving of
 [folks fat shaming bundle sizes on twitter](https://twitter.com/slightlylate).
 
 To make something appear on the screen prior to the JavaScript loading, one can
-use several tools. My favorite, which this website is built off is is
+use several tools. A favorite, which this website is built off is is
 [Next.js](https://nextjs.org/); another popular tool is called
 [Gatsby](https://www.gatsbyjs.org/). Each of these have a feature that allows
 for something called _static site generation_. This allows for all of the HTML
@@ -229,7 +229,10 @@ sometimes it will make a website go slower. This is because the size of that
 image is often several kilobytes, and if placed it into the HTML file will make
 it huge. Then, the network will take longer to download the larger file and the
 browser longer to parse it. As a result, it is recommended to use this technique
-for small files or things that will be immediately seen on the screen.
+for small files or things that will be immediately seen on the screen. To
+mitigate this, consider sizing the image exactly to how it will be sized on the
+screen, and running it through a compression tool such as
+[squoosh](https://squoosh.app/).
 
 ### Optimizing Remote Scripts and Assets
 
