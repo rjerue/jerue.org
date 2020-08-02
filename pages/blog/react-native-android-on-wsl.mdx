@@ -1,0 +1,40 @@
+export const intro = `React native is a tool that allows developers to write apps one and render them anywhere. Android, iOS, web, and more.
+One does not need a top of the line machine or a mac in order to start learning how to develop things with React Native. While tools such as
+expo allow for one to test on any smartphone, that is not even necessary. Learn how to set up a developer environment for React Native on a
+PC using Windows Subsystem for Linux. Windows subsystem for Linux is also a fantastic developer environment for more traditional web development 
+work too!`;
+
+export const date = "8/2/2020";
+
+## React Native Android on Windows Subsystem for Linux
+
+<p>{intro}</p>
+
+## Setting Up WSL
+
+First, one needs to set up Windows Subsystem for Linux, aka WSL. To do this, one
+should follow
+[Microsoft's own instructions](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
+A tl;dr summary is the following:
+
+- Make sure you are running windows 10 version 2004, build 19041 or higher. To
+  check this, press `Windows Key + r` on your keyboard, type in `winver` and
+  select ok. The version and build number will be displayed.
+- Check if virtualization support is enabled by clicking start, typing in "task
+  manager," navigate to performance, click CPU and on the bottom there should be
+  something that says "Virtualization: Enabled." If this is **not** the case,
+  follow
+  [these linked instructions](https://2nwiki.2n.cz/pages/viewpage.action?pageId=75202968#:~:text=ON%20the%20System.-,Press%20F2%20key%20at%20startup%20BIOS%20Setup.,changes%20and%20Reboot%20into%20Windows.)
+  to enable virtualization for your machine based on it's manufacturer.
+- Open powershell as administrator (right click, run as administrator) and type
+  `dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart`
+  to enable Virtual Machine Platform in windows.
+- While still inb powershell as administrator type
+  `dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart`
+- Reboot your machine.
+- Open powershell as administrator and type `wsl --set-default-version 2`.
+- If there's a message stating a kernel update is needed, follow
+  [these linked instructions](https://docs.microsoft.com/en-us/windows/wsl/wsl2-kernel).
+- [Go to the windows store and download Ubuntu with this link](https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6).
+
+<div>Published {date}</div>

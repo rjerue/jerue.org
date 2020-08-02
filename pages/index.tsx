@@ -3,7 +3,7 @@ import { Text, Box } from "rebass";
 import { NextPage } from "next";
 import BlogList, { BlogListProps } from "../components/BlogList";
 import { Header } from "../components/Header";
-import { posts } from "../blogs.json";
+import { getBlogs } from "../utils/blogs";
 
 const HomePage: NextPage<BlogListProps> = ({ blogs }) => {
   return (
@@ -17,8 +17,8 @@ const HomePage: NextPage<BlogListProps> = ({ blogs }) => {
             Amherst.
           </Text>
           <Text as="li">
-            Enjoy working with JavaScript, React, Node, NoSQL Databases, Data
-            Visualization, User Experience, Java, Scala, and much more.
+            Enjoy working with JavaScript, TypeScript, React, React Native,
+            Java, REST, GraphQL, APIs, SQL, MongoDB, and more.
           </Text>
           <Text as="li">
             I love photography; hiking and camping; cheering on Liverpool, Red
@@ -32,18 +32,7 @@ const HomePage: NextPage<BlogListProps> = ({ blogs }) => {
 };
 
 export const getStaticProps = async () => {
-  const blogs = await Promise.all(
-    posts.map(async (post) => {
-      const { intro, date, hidden } = await import(`./blog/${post}.mdx`);
-      return {
-        intro: intro as string,
-        slug: post,
-        date: date as string,
-        hidden: hidden || false,
-      };
-    })
-  );
-  return { props: { blogs } };
+  return { props: { blogs: await getBlogs() } };
 };
 
 export default HomePage;
