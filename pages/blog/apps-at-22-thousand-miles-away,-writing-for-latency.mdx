@@ -20,7 +20,7 @@ water goes through the pipe. Bandwidth is how wide the pipe is, faster speeds at
 higher bandwidths mean more water can make it through. This is most often how
 internet speed is advertised; some amount of data sent over a certain amount of
 time. Now say the water only goes through the tube when a faucet is turned on.
-The amount of time between turning the facet and water coming out: that is
+The amount of time between turning the facet on and water coming out: that is
 latency.
 
 There are lots of causes for latency in a computer application. The primary one
@@ -35,7 +35,7 @@ website for example is hosted on a CDN, aka a content delivery network. CDNs
 create global edge nodes that are geographically closer to customers. If in
 California, one would connect to a server there or close to there, whereas in
 Europe one would instead connect to one likely in Europe. There are lots of
-reasons to distribute a system too related to redundancy and scale. However when
+reasons to distribute a system related to redundancy and scale. However when
 writing applications for customers of mine in addition to the usual challenge,
 all of the traffic must go through a satellite in geostationary orbit.
 
@@ -89,13 +89,13 @@ to make their web app seem snappy on even the worst of network conditions. With
 progressive rendering one renders something in HTML prior to the JavaScript
 loading so that the user sees some content. Typically, when websites are loaded,
 the first thing returned is the HTML. The HTML then makes some reference to
-additional JavaScript needs to be loaded. The JavaScript is then loaded over an
+additional JavaScript that needs to be loaded. The JavaScript is then loaded over an
 additional network request and is parsed by one's browser. The time for
 JavaScript code to load is enough of a problem and maybe even deserving of
 [folks fat shaming bundle sizes on twitter](https://twitter.com/slightlylate).
 
 To make something appear on the screen prior to the JavaScript loading, one can
-use several tools. A favorite, which this website is built off is is
+use several tools. A favorite, which this website is built off, is
 [Next.js](https://nextjs.org/); another popular tool is called
 [Gatsby](https://www.gatsbyjs.org/). Each of these have a feature that allows
 for something called _static site generation_. This allows for all of the HTML
@@ -105,7 +105,7 @@ some JS may need to load regardless. At this point, one can put some sort of css
 driven animation to signify that there is loading being done to at least give
 the user a semblance that the application is loading.
 [Next.js does this through a function called `getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation),
-whereas anything that applications created by Gatsby will be statically
+whereas any applications created by Gatsby will be statically
 generated.
 
 ### Bundle Splitting
@@ -164,8 +164,8 @@ when the html is initially loaded and the network request for the image
 completes. Thats a major bummer! But, can that network request be removed? Yes
 it can!
 
-There are two methods for doing this. The first is if something that is more of
-an icon. If doing that, consider using an SVG, aka Scalable Vector Graphics, and
+There are two methods for doing this. The first is if something is more of
+an icon, consider using an SVG, aka Scalable Vector Graphics, and
 putting it inline to HTML. SVGs are handled natively by the browser and one can
 even apply CSS to them. If using React (on the web), SVG works like any other
 HTML tag. They are lossless (not effected by screen resolutions) and use math to
@@ -223,12 +223,12 @@ Consider this picture of the Greatest Quarterback of All Time:
 </div>
 
 This one will load alongside the HTML. No network request is needed!
-[Chris Coyier's CSS tricks has a fantastic explanation of what goes into how data URIs if one would like to learn more](https://css-tricks.com/data-uris/)!
+[Chris Coyier's CSS tricks has a fantastic explanation of data URIs if one would like to learn more](https://css-tricks.com/data-uris/)!
 However, do realize that inlining images is not always the best idea. Sometimes
 it will make a website go slower. This is because the size of that image is
-often several kilobytes, and if placed it into the HTML file will make it huge.
+often several kilobytes, and if placed into the HTML file it will make it huge.
 Then, the network will take longer to download the larger file and the browser
-longer to parse it. As a result, it is recommended to use this technique for
+will take longer to parse it. As a result, it is recommended to use this technique for
 small files or things that will be immediately seen on the screen. To mitigate
 this, consider sizing the image exactly to how it will be sized on the screen,
 and running it through a compression tool such as
@@ -271,8 +271,8 @@ to find all the books and their authors.
 4. Query `Authors` on `AuthorId` to get the `AuthorName`
 
 See the chained logic? One query requires the output of the previous. Hopefully,
-one can design an API with just some sort of lookup functionality, or it make
-make sense to make a bespoke `getAuthorNames` route or something. Even if these
+one can design an API with just some sort of lookup functionality, or it may
+make sense to create a bespoke `getAuthorNames` route or something similar. Even if these
 APIs returned lightning quick, a bottleneck could exist because of the added
 latency of doing any network request. Unfortunately, one often does not own the
 APIs that they are integrating into. However serverless frameworks make it easy
@@ -337,8 +337,8 @@ Values get passed from resolver to resolver based on the schema one constructs.
 GraphQL clients on the front end such as
 [Apollo](https://www.apollographql.com/docs/react/) and
 [Relay](https://relay.dev/) also allow client state to be largely managed as a
-function of what the server returns too to allow for caching, optimistic
-renders, and more. This could allow you to trim code where one would use Redux
+function of what the server returns to allow for caching, optimistic
+renders, and more. This could allow you to trim code where one would previously use Redux
 or React Context.
 
 An addendum on the topic of network requests and data is that often one can
@@ -377,7 +377,7 @@ snappy and delightful user experiences. While designing for the "worst" in mind,
 developers often craft better experiences for those with the best of network
 conditions as well. It is not just in developing countries where poor
 connectivity occurs either. Very high value interactions could happen with
-customers in connected aircraft,residential satellite connections, and over
+customers in connected aircraft, residential satellite connections, and over
 cellular. Not every solution is perfect, like most there are tradeoffs and I
 hope to have given one the knowledge to know how to make the best choices. Let
 us continue to make the web inclusive for everyone.
