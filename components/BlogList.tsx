@@ -17,8 +17,8 @@ export interface BlogListProps {
 const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
   return (
     <Box as="section" mt={2}>
-      <Header>Blog Posts</Header>
-      <Box paddingX={[0, 4]} pt={1}>
+      <Header>Blog Posts:</Header>
+      <Box paddingTop={1} paddingX={[0, 4]}>
         {blogs.map(({ intro, slug, date, hidden }) => {
           return (
             !hidden && (
@@ -33,24 +33,27 @@ const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
                   }}
                 >
                   <Flex justifyContent="space-between" alignItems="center">
-                    <Box maxWidth={["237px", "unset", "unset"]}>
-                      <RLink href="" sx={{ textDecoration: "none" }}>
-                        <Header>{titleize(humanize(slug))}</Header>
-                      </RLink>
-                    </Box>
-                    <Box alignSelf="center">
+                    <RLink href="" sx={{ textDecoration: "none" }} width="100%">
+                      <Header display="inline">
+                        {titleize(humanize(slug))}{" "}
+                      </Header>
                       <Text
+                        display="inline-block"
                         sx={{
                           paddingLeft: 1,
                           color: "primary",
                           fontWeight: "bold",
+                          float: "right",
                         }}
+                        marginTop={["6px", "8px"]}
+                        paddingRight={"8px"}
+                        fontSize={["12px", "13px"]}
                       >
                         {date}
                       </Text>
-                    </Box>
+                    </RLink>
                   </Flex>
-                  <Text>{intro}</Text>
+                  <Text marginTop={"4px"}>{intro}</Text>
                 </Box>
               </Link>
             )

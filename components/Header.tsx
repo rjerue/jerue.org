@@ -1,8 +1,8 @@
 import React from "react";
-import { Heading } from "rebass";
+import { Heading, HeadingProps } from "rebass";
 
-export const Header: React.FC = ({ children }) => (
-  <Heading fontSize={[3, 4]} paddingY={1}>
+export const Header: React.FC<HeadingProps> = ({ children, ...props }) => (
+  <Heading fontSize={[3, 4]} paddingY={1} {...props}>
     {children}
   </Heading>
 );
