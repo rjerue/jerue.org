@@ -10,7 +10,7 @@ export const date = "8/2/2020";
 
 <p>{intro}</p>
 
-## Setting Up WSL
+### Setting Up WSL
 
 First, one needs to set up Windows Subsystem for Linux, aka WSL. To do this, one
 should follow
@@ -36,5 +36,64 @@ A tl;dr summary is the following:
 - If there's a message stating a kernel update is needed, follow
   [these linked instructions](https://docs.microsoft.com/en-us/windows/wsl/wsl2-kernel).
 - [Go to the windows store and download Ubuntu with this link](https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6).
+
+Once installed, connect to it by opening a shell
+([I suggest getting/using Window Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk70))
+and just typing in `ubuntu`. There will be some prompts to set up an account.
+
+### Setting up Node and NPM
+
+The following sequence of commands will install node and npm
+
+```bash
+$ sudo apt update
+$ sudo apt install nodejs
+$ node -v
+$ sudo apt install npm
+$ npm -v
+```
+
+This is all you need to start doing traditional web development in a WSL
+environment.
+
+### Android on the host
+
+The "host" windows installation is going to be what runs the emulated android
+device as well as an instance of adp (android debugger).
+[Download and install Android Studio](https://developer.android.com/studio).
+
+To make a virtual device, do the following after creating a new project and
+following the prompts:
+
+1. Then hit the AVD manager button. Phone with the Android alien head peeking.
+
+   ![AVD manager button](/static/avd-manager.png)
+
+2. Click "Create Virtual Device"
+3. Select a device. I suggest a pixel 2. Hit next
+4. Hit download next to the release name "Q." Follow prompts to download. Once
+   highlighted, hit next.
+5. Hit finish.
+
+To start a virtual device, hit the AVD manager button and click the green play
+next to the device.
+
+Now one needs to set up adb:
+
+1. On the android studio page, download the "SDK tools package" for windows.
+2. Once downloaded, extract the zip to `C:\platform-tools`
+3. Bring up the menu to edit system environment variables, see below:
+
+<div style={{ display: "flex", justifyContent: "center" }}>
+  <img width="90%" src="/static/environment-start-menu.png" />
+</div>
+
+4. Hit "Environmental Variables"
+5. Under "System Variables" select `PATH` and hit "edit"
+6. Hit new and add `C:\platform-tools` to the list.
+7. Hit Ok, Ok, and you guessed it, Ok. to close all of the dialog windows.
+
+The `adb` command now should be able to be run from new terminal instance in the
+host windows env.
 
 <div>Published {date}</div>
