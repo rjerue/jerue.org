@@ -1,17 +1,12 @@
 import React from "react";
 import Link from "next/link";
-import { Box, Text, Link as RLink, Flex } from "rebass";
-import humanize from "humanize-string";
-import titleize from "titleize";
+import { Box, Text, Link as RLink } from "rebass";
 import { Header } from "./Header";
+import { Blog } from "../types/Blog";
+import TitleText from "./TileText";
 
 export interface BlogListProps {
-  blogs: {
-    intro: string;
-    slug: string;
-    date: string;
-    hidden: boolean;
-  }[];
+  blogs: Blog[];
 }
 
 const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
@@ -32,27 +27,9 @@ const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
                     },
                   }}
                 >
-                  <Flex justifyContent="space-between" alignItems="center">
-                    <RLink href="" sx={{ textDecoration: "none" }} width="100%">
-                      <Header display="inline">
-                        {titleize(humanize(slug))}{" "}
-                      </Header>
-                      <Text
-                        display="inline-block"
-                        sx={{
-                          paddingLeft: 1,
-                          color: "primary",
-                          fontWeight: "bold",
-                          float: "right",
-                        }}
-                        marginTop={["6px", "8px"]}
-                        paddingRight={"8px"}
-                        fontSize={["12px", "13px"]}
-                      >
-                        {date}
-                      </Text>
-                    </RLink>
-                  </Flex>
+                  <RLink href="" sx={{ textDecoration: "none" }} width="100%">
+                    <TitleText date={date} slug={slug} />
+                  </RLink>
                   <Text marginTop={"4px"}>{intro}</Text>
                 </Box>
               </Link>

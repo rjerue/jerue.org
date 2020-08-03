@@ -6,6 +6,7 @@ import { MDXProvider } from "@mdx-js/react";
 import preset from "@rebass/preset";
 import Layout from "../layouts/default";
 import CodeBlock from "../components/CodeBlock";
+import TitleText from "../components/TileText";
 
 interface Colors {
   text: string;
@@ -63,6 +64,7 @@ export function useRefreshTheme(): () => Promise<void> {
 
 const components = {
   code: CodeBlock,
+  TitleText,
 };
 
 class MyApp extends App {
