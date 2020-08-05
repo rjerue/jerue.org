@@ -1,4 +1,5 @@
 import React from "react";
+import NextLink from "next/link";
 import { Flex, Box, Text, Link, LinkProps, BoxProps } from "rebass";
 import { useRefreshTheme } from "../pages/_app";
 
@@ -60,23 +61,28 @@ const NavbarItem: React.FC<LinkProps | BoxProps> = ({
 };
 
 const Navbar: React.FC = () => {
-  const refreshTheme = useRefreshTheme();
+  const { refreshTheme, resetTheme } = useRefreshTheme();
   return (
     <Flex alignItems="center" as="nav" py={4}>
-      <Link
-        p={0}
-        sx={{
-          textDecoration: "none",
-          ":hover": {
-            color: "highlight",
-          },
-        }}
-        href="/"
-      >
-        <Text fontWeight="bolder" fontSize={[3, 4, 5]}>
-          Ryan Jerue
-        </Text>
-      </Link>
+      <NextLink href="/">
+        <Link
+          onClick={() => {
+            resetTheme();
+          }}
+          p={0}
+          sx={{
+            textDecoration: "none",
+            ":hover": {
+              color: "highlight",
+            },
+          }}
+          href=""
+        >
+          <Text fontWeight="bolder" fontSize={[3, 4, 5]}>
+            Ryan Jerue
+          </Text>
+        </Link>
+      </NextLink>
       <Box mx="auto" />
       <NavbarItem
         href="https://twitter.com/rjerue"

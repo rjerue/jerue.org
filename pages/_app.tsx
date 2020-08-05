@@ -51,15 +51,17 @@ async function refreshThemeColorsFromColormind(): Promise<Partial<Colors>> {
   };
 }
 
-const ThemeRefresher = React.createContext({
+export const ThemeRefresher = React.createContext({
   refreshTheme: async () => {
+    console.error("No Theme to refresh!");
+  },
+  resetTheme: async () => {
     console.error("No Theme to refresh!");
   },
 });
 
-export function useRefreshTheme(): () => Promise<void> {
-  const { refreshTheme } = React.useContext(ThemeRefresher);
-  return refreshTheme;
+export function useRefreshTheme() {
+  return React.useContext(ThemeRefresher);
 }
 
 const components = {
@@ -84,6 +86,17 @@ class MyApp extends App {
     });
   };
 
+  resetThemeColors = async (): Promise<void> => {
+    this.setState({
+      theme: {
+        ...preset,
+        colors: {
+          ...preset.colors,
+        },
+      },
+    });
+  };
+
   render(): JSX.Element {
     const { Component, pageProps } = this.props;
     const { theme } = this.state;
@@ -95,7 +108,10 @@ class MyApp extends App {
           <meta name="theme-color" content={`${theme.colors.primary}`} />
         </Head>
         <ThemeRefresher.Provider
-          value={{ refreshTheme: this.refreshThemeColors }}
+          value={{
+            refreshTheme: this.refreshThemeColors,
+            resetTheme: this.resetThemeColors,
+          }}
         >
           <ThemeProvider theme={this.state.theme}>
             <MDXProvider components={components}>
