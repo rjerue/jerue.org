@@ -4,11 +4,11 @@ expo allow for one to test on any smartphone, that is not even necessary. Learn 
 PC using Windows Subsystem for Linux. Windows subsystem for Linux is also a fantastic developer environment for more traditional web development 
 work too!`;
 
-export const date = "8/3/2020";
+export const date = "8/5/2020";
 
 <TitleText
-  mt={2}
-  title="React Native Android on Windows Subsystem for Linux"
+  mt={3}
+  title="Running Android With React Native on Windows Subsystem for Linux"
   date={date}
 />
 
@@ -182,7 +182,7 @@ One may save those in their package json as the following:
     }
 ```
 
-React native should be running on the android device in windows!
+React native should be running on the android device in windows! Happy hacking!
 
 ### Troubleshooting
 
@@ -196,3 +196,11 @@ React native should be running on the android device in windows!
 4. Check the path variables. Anything that says `export` in linux is a
    variables. Run `echo $variable` to see it's result. For example
    `echo $WSL_HOST` outputs `172.28.48.1`.
+5. One's milage may vary, but these instructions also worked with creating an
+   expo app. In addition, the following needed to be run prior to installing the
+   expo cli.
+
+   ```bash
+   sudo chown -R $USER /usr/local/bin/
+   sudo chown -R $USER /usr/local/lib/
+   ```
