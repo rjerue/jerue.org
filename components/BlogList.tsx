@@ -27,9 +27,11 @@ const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
                     },
                   }}
                 >
-                  <RLink href="" sx={{ textDecoration: "none" }} width="100%">
-                    <TitleText date={date} slug={slug} />
-                  </RLink>
+                  <Box>
+                    <RLink href="" sx={{ textDecoration: "none" }} width="100%">
+                      <TitleText date={date} slug={slug} />
+                    </RLink>
+                  </Box>
                   <Text marginTop={"4px"}>{intro}</Text>
                 </Box>
               </Link>

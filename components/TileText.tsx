@@ -16,10 +16,10 @@ const TitleText: React.FC<TitleTextProps> = ({
   ...props
 }) => {
   return (
-    <Box {...props}>
+    <Box overflow="hidden" {...props}>
       <Header display="inline">{titleize(title || humanize(slug))} </Header>
       <Text
-        display="inline-block"
+        display="inline"
         sx={{
           paddingLeft: 1,
           color: "primary",
