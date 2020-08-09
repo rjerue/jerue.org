@@ -5,7 +5,11 @@ experiences. Many of these patterns make sense outside high latency environments
 
 export const date = "8/1/2020";
 
-## Apps At 22 Thousand Miles Away, Writing For High Latency
+<TitleText
+  mt={3}
+  title="Apps At 22 Thousand Miles Away, Writing For High Latency"
+  date={date}
+/>
 
 <p>{intro}</p>
 
@@ -89,8 +93,8 @@ to make their web app seem snappy on even the worst of network conditions. With
 progressive rendering one renders something in HTML prior to the JavaScript
 loading so that the user sees some content. Typically, when websites are loaded,
 the first thing returned is the HTML. The HTML then makes some reference to
-additional JavaScript that needs to be loaded. The JavaScript is then loaded over an
-additional network request and is parsed by one's browser. The time for
+additional JavaScript that needs to be loaded. The JavaScript is then loaded
+over an additional network request and is parsed by one's browser. The time for
 JavaScript code to load is enough of a problem and maybe even deserving of
 [folks fat shaming bundle sizes on twitter](https://twitter.com/slightlylate).
 
@@ -105,8 +109,7 @@ some JS may need to load regardless. At this point, one can put some sort of css
 driven animation to signify that there is loading being done to at least give
 the user a semblance that the application is loading.
 [Next.js does this through a function called `getStaticProps`](https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation),
-whereas any applications created by Gatsby will be statically
-generated.
+whereas any applications created by Gatsby will be statically generated.
 
 ### Bundle Splitting
 
@@ -164,12 +167,12 @@ when the html is initially loaded and the network request for the image
 completes. Thats a major bummer! But, can that network request be removed? Yes
 it can!
 
-There are two methods for doing this. The first is if something is more of
-an icon, consider using an SVG, aka Scalable Vector Graphics, and
-putting it inline to HTML. SVGs are handled natively by the browser and one can
-even apply CSS to them. If using React (on the web), SVG works like any other
-HTML tag. They are lossless (not effected by screen resolutions) and use math to
-draw onto the screen.
+There are two methods for doing this. The first is if something is more of an
+icon, consider using an SVG, aka Scalable Vector Graphics, and putting it inline
+to HTML. SVGs are handled natively by the browser and one can even apply CSS to
+them. If using React (on the web), SVG works like any other HTML tag. They are
+lossless (not effected by screen resolutions) and use math to draw onto the
+screen.
 
 ```svg
 <svg width="100" height="100">
@@ -228,10 +231,10 @@ However, do realize that inlining images is not always the best idea. Sometimes
 it will make a website go slower. This is because the size of that image is
 often several kilobytes, and if placed into the HTML file it will make it huge.
 Then, the network will take longer to download the larger file and the browser
-will take longer to parse it. As a result, it is recommended to use this technique for
-small files or things that will be immediately seen on the screen. To mitigate
-this, consider sizing the image exactly to how it will be sized on the screen,
-and running it through a compression tool such as
+will take longer to parse it. As a result, it is recommended to use this
+technique for small files or things that will be immediately seen on the screen.
+To mitigate this, consider sizing the image exactly to how it will be sized on
+the screen, and running it through a compression tool such as
 [squoosh](https://squoosh.app/).
 
 ### Optimizing Remote Scripts and Assets
@@ -272,11 +275,11 @@ to find all the books and their authors.
 
 See the chained logic? One query requires the output of the previous. Hopefully,
 one can design an API with just some sort of lookup functionality, or it may
-make sense to create a bespoke `getAuthorNames` route or something similar. Even if these
-APIs returned lightning quick, a bottleneck could exist because of the added
-latency of doing any network request. Unfortunately, one often does not own the
-APIs that they are integrating into. However serverless frameworks make it easy
-for one to just make some API route to handle these sorts of things.
+make sense to create a bespoke `getAuthorNames` route or something similar. Even
+if these APIs returned lightning quick, a bottleneck could exist because of the
+added latency of doing any network request. Unfortunately, one often does not
+own the APIs that they are integrating into. However serverless frameworks make
+it easy for one to just make some API route to handle these sorts of things.
 
 One could use a tool like [Vercel](https://vercel.com/),
 [Netlify](https://www.netlify.com/products/functions/), or an
@@ -337,8 +340,8 @@ Values get passed from resolver to resolver based on the schema one constructs.
 GraphQL clients on the front end such as
 [Apollo](https://www.apollographql.com/docs/react/) and
 [Relay](https://relay.dev/) also allow client state to be largely managed as a
-function of what the server returns to allow for caching, optimistic
-renders, and more. This could allow you to trim code where one would previously use Redux
+function of what the server returns to allow for caching, optimistic renders,
+and more. This could allow you to trim code where one would previously use Redux
 or React Context.
 
 An addendum on the topic of network requests and data is that often one can
@@ -381,5 +384,3 @@ customers in connected aircraft, residential satellite connections, and over
 cellular. Not every solution is perfect, like most there are tradeoffs and I
 hope to have given one the knowledge to know how to make the best choices. Let
 us continue to make the web inclusive for everyone.
-
-<div>Published {date}</div>

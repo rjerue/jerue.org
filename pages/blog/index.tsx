@@ -1,25 +1,14 @@
 import React from "react";
 import { NextPage } from "next";
 import BlogList, { BlogListProps } from "../../components/BlogList";
-import { posts } from "../../blogs.json";
+import { getBlogs } from "../../utils/blogs";
 
 const HomePage: NextPage<BlogListProps> = ({ blogs }) => {
   return <BlogList blogs={blogs} />;
 };
 
 export const getStaticProps = async () => {
-  const blogs = await Promise.all(
-    posts.map(async (post) => {
-      const { intro, date, hidden } = await import(`./${post}.mdx`);
-      return {
-        intro: intro as string,
-        slug: post,
-        date: date as string,
-        hidden: hidden || false,
-      };
-    })
-  );
-  return { props: { blogs } };
+  return { props: { blogs: await getBlogs() } };
 };
 
 export default HomePage;
