@@ -1,8 +1,8 @@
-export const intro = `React native is a tool that allows developers to write apps one and render them anywhere. Android, iOS, web, and more.
-One does not need a top of the line machine or a mac in order to start learning how to develop things with React Native. While tools such as
-expo allow for one to test on any smartphone, that is not even necessary. Learn how to set up a developer environment for React Native on a
-PC using Windows Subsystem for Linux. Windows subsystem for Linux is also a fantastic developer environment for more traditional web development 
-work too!`;
+export const intro = `React native is a tool that allows developers to write apps one and render them anywhere: Android, iOS, web, and more.
+One does not need a state of the art PC or a mac in order to start learning how to develop things with React Native. While tools such as
+expo allow for one to test on any smartphone, one does not need to use that and can develop and test on the same PC. 
+Learn how to set up a developer environment for React Native on a PC using Windows Subsystem for Linux (aka WSL). As a bonus, WSL subsystem 
+for Linux is also a fantastic developer environment for more traditional web development work too!`;
 
 export const date = "8/5/2020";
 
@@ -16,20 +16,22 @@ export const date = "8/5/2020";
 
 ### Why?
 
-I use a Mac at work and a PC for most of my personal work. There's positives and
-negatives about each, however by far PCs are more accessible. Meaning, folks are
-far more likely to be own and/or be able to afford a PC. Globally, this is also
-the case with android devices. Macs do enable one to develop and test iPhone
-apps, while PCs do not. Meaning to create an iPhone app, one will need a Mac.
-One does not need a fancy Mac computer to start coding apps! Start like a pro in
-a unix like environment! Learn and do great things with what you have!
+I use a Mac at work and a PC for most of my personal work. There are positives
+and negatives about each, however PCs are bby more accessible to most. Meaning,
+folks are far more likely to be own and/or be able to afford a PC. Globally,
+this is also the case with android devices. Macs do enable one to develop and
+test iPhone apps, while PCs do not. Meaning to create an iPhone app, one will
+need a Mac. One does not need a fancy Mac computer to start coding apps! Start
+like a pro in a unix like environment! Learn and do great things with what you
+have!
 
 ### Setting Up WSL
 
 First, one needs to set up Windows Subsystem for Linux, aka WSL. To do this, one
 should follow
 [Microsoft's own instructions](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
-A tl;dr summary is the following:
+You can skip this section if you already have WSL installed. A tl;dr summary is
+the following:
 
 - Make sure windows 10 version 2004, build 19041 or higher are running. To check
   this, press `Windows Key + r` on the keyboard, type in `winver` and select ok.
@@ -39,11 +41,11 @@ A tl;dr summary is the following:
   something that says "Virtualization: Enabled." If this is **not** the case,
   follow
   [these linked instructions](https://2nwiki.2n.cz/pages/viewpage.action?pageId=75202968#:~:text=ON%20the%20System.-,Press%20F2%20key%20at%20startup%20BIOS%20Setup.,changes%20and%20Reboot%20into%20Windows.)
-  to enable virtualization for one's machine based on it's manufacturer.
+  to enable virtualization for one's machine based on its manufacturer.
 - Open powershell as administrator (right click, run as administrator) and type
   `dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart`
   to enable Virtual Machine Platform in windows.
-- While still inb powershell as administrator type
+- While still in powershell as administrator type
   `dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart`
 - Reboot the machine.
 - Open powershell as administrator and type `wsl --set-default-version 2`.
@@ -57,7 +59,9 @@ and just typing in `ubuntu`. There will be some prompts to set up an account.
 
 ### Setting up Node and NPM
 
-The following sequence of commands will install node and npm
+The following sequence of commands will install node and npm. You can skip this
+if `node -v` and `npm -v` ouputs something. However, it may still be worth
+running to update to the latest version of each.
 
 ```bash
 $ sudo apt update
@@ -84,7 +88,7 @@ following the prompts:
    ![AVD manager button](/static/avd-manager.png)
 
 2. Click "Create Virtual Device"
-3. Select a device. I suggest a pixel 2. Hit next
+3. Select a device. I suggest a Pixel 2. Hit next.
 4. Hit download next to the release name "Q." Follow prompts to download. Once
    highlighted, hit next.
 5. Hit finish.
@@ -106,7 +110,7 @@ Now one needs to set up adb:
 4. Hit "Environmental Variables"
 5. Under "System Variables" select `PATH` and hit "edit"
 6. Hit new and add `C:\platform-tools` to the list.
-7. Hit Ok, Ok, and a final, Ok. to close all of the dialog windows.
+7. Hit Ok, Ok, and a final Ok. to close all of the dialog windows.
 
 The `adb` command now should be able to be run from new terminal instance in the
 host windows env.
@@ -190,7 +194,7 @@ React native should be running on the android device in windows! Happy hacking!
 
 ### Troubleshooting
 
-1. Restart the computer
+1. Restart the computer.
 2. Restart the emulator with a cold boot. To do this close the emulator and go
    to restart it, but instead of clicking the play button, hit the down caret to
    the right and run a cold boot.
@@ -208,3 +212,5 @@ React native should be running on the android device in windows! Happy hacking!
    sudo chown -R $USER /usr/local/bin/
    sudo chown -R $USER /usr/local/lib/
    ```
+
+6. Questions? Tweet me [@rjerue](https://twitter.com/rjerue)!
