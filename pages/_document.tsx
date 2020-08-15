@@ -6,9 +6,15 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <meta charSet="utf-8" />
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta
             name="Description"
             content="Website and technical blog of Ryan Jerue, a Software engineer in Southern California"
+          />
+          <meta
+            name="keywords"
+            content="Ryan Jerue Web Software Engineer React TypeScript"
           />
           <link
             rel="shortcut icon"

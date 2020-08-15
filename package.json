@@ -13,8 +13,6 @@
   },
   "main": "pages/index.tsx",
   "dependencies": {
-    "@fullhuman/postcss-purgecss": "^2.0.6",
-    "@loadable/component": "^5.12.0",
     "@mdx-js/loader": "^1.5.5",
     "@mdx-js/react": "^1.5.5",
     "@next/mdx": "^9.2.1",
@@ -26,7 +24,6 @@
     "emotion-theming": "^10.0.27",
     "humanize-string": "^2.1.0",
     "next": "^9.5.1",
-    "next-offline": "^5.0.2",
     "prism-react-renderer": "^1.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -38,7 +35,6 @@
   "keywords": [],
   "description": "",
   "devDependencies": {
-    "@types/loadable__component": "^5.10.0",
     "@types/mdx-js__react": "^1.5.0",
     "@types/rebass": "^4.0.4",
     "@typescript-eslint/eslint-plugin": "3.7.1",
@@ -51,6 +47,7 @@
     "eslint-plugin-jsx-a11y": "6.x",
     "eslint-plugin-react": "7.x",
     "eslint-plugin-react-hooks": "4.0.8",
+    "next-pwa": "^3.1.1",
     "prettier": "prettier/prettier",
     "serve": "^11.3.0"
   }
