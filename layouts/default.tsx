@@ -17,8 +17,8 @@ const Layout: React.FC = ({ children }) => {
         <Navbar />
         <Box>
           <div>
-            My name is Ryan Jerue. I am a Software Engineer at Viasat Inc. My
-            focus in creating scalable web systems. in Carlsbad, California. I
+            My name is Ryan Jerue. I am a Software Engineer at Viasat Inc in
+            Carlsbad, California. My focus in creating scalable web systems. I
             can be contacted over ryan at jerue dot org.
           </div>
         </Box>
