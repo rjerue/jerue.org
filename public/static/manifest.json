@@ -1,6 +1,11 @@
 {
-  "short_name": "Jerue",
-  "name": "Ryan Jerue's Website",
+  "name": "Jerue.org",
+  "short_name": "Ryan Jerue's website",
+  "theme_color": "#0077cc",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
   "icons": [
     {
       "src": "/static/android-chrome-192x192.png",
@@ -10,11 +15,8 @@
     {
       "src": "android-chrome-512x512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
-  ],
-  "start_url": "/",
-  "background_color": "#ffffff",
-  "display": "standalone",
-  "theme_color": "#07c"
+  ]
 }

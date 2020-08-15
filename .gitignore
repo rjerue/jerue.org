@@ -3,3 +3,5 @@ node_modules
 out
 .vscode
 blogs.json
+public/sw.js
+public/workbox-*.js
