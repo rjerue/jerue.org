@@ -2,6 +2,8 @@
 const fs = require("fs");
 const withPWA = require("next-pwa");
 
+const isProd = process.env.NODE_ENV === "production";
+
 const withMDX = require("@next/mdx")({
   extension: /\.mdx?$/,
 });
@@ -32,7 +34,7 @@ fs.writeFileSync(
   })
 );
 
-module.exports = [withPWA, withMDX].reduce(
+module.exports = [...(isProd ? [withPWA] : []), withMDX].reduce(
   (updatedConfig, configWrapper) => configWrapper(updatedConfig),
   nextConfig
 );
