@@ -17,9 +17,10 @@ const Layout: React.FC = ({ children }) => {
         <Navbar />
         <Box>
           <div>
-            My name is Ryan Jerue. I am a Software Engineer in Charleston,
-            South Carolina. My focus is in creating scalable web systems. 
-            I can be contacted over ryan at jerue dot org.
+            I am Ryan Jerue, a Software Engineer working remotely at
+            Reify Health in Charleston, South Carolina. My focus is
+            in creating scalable web systems. I can be contacted by
+            email over ryan at jerue dot org.
           </div>
         </Box>
 
