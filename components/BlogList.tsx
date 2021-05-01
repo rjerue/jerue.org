@@ -14,7 +14,7 @@ const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
     <Box as="section" mt={2}>
       <Header>Blog Posts:</Header>
       <Box paddingTop={1} paddingX={[0, 4]}>
-        {blogs.map(({ intro, slug, date, hidden }) => {
+        {blogs.map(({ intro, slug, date, hidden, title }) => {
           return (
             !hidden && (
               <Link href={`/blog/${slug}`} key={slug}>
@@ -29,7 +29,7 @@ const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
                 >
                   <Box>
                     <RLink href="" sx={{ textDecoration: "none" }} width="100%">
-                      <TitleText date={date} slug={slug} />
+                      <TitleText date={date} title={title} />
                     </RLink>
                   </Box>
                   <Text marginTop={"4px"}>{intro}</Text>
