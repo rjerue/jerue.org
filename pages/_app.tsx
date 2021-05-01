@@ -54,7 +54,9 @@ class MyApp extends App {
   };
 
   setThemesFromColormindSet = async () => {
-    const themes = await fetch("/static/colors.json").then((r) => r.json());
+    const themes = (await fetch("/static/colors.json").then((r) =>
+      r.json()
+    )) as Colors[];
     this.setState({  themes  });;
   };;
 
