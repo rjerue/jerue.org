@@ -12,7 +12,7 @@ const HomePage: NextPage<BlogListProps> = ({ blogs }) => {
         <Header>About me:</Header>
         <Box as="ul" px={[2, 4]}>
           <Text as="li">
-            Previously worked at NAVSEA, Charles River Development, Viasat and
+            Previously worked at Viasat, Charles River Development, NAVSEA, and
             with the RIPPLES group at my alma mater, the University of
             Massachusetts Amherst.
           </Text>
