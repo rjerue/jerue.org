@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Text, BoxProps } from "rebass";
 import humanize from "humanize-string";
-import titleize from "titleize";
 import { Header } from "./Header";
 import { Blog } from "../types/Blog";
 
@@ -17,7 +16,7 @@ const TitleText: React.FC<TitleTextProps> = ({
 }) => {
   return (
     <Box overflow="hidden" {...props}>
-      <Header display="inline">{titleize(title || humanize(slug))} </Header>
+      <Header display="inline">{title || humanize(slug)} </Header>
       <Text
         display="inline"
         sx={{
