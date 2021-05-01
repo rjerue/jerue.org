@@ -34,7 +34,7 @@ async function main() {
       return refreshThemeColorsFromColormind();
     })
   );
-  await fs.writeFile("./colors.json", JSON.stringify(colors));
+  await fs.writeFile(".public/static/colors.json", JSON.stringify(colors));
 }
 
 main();

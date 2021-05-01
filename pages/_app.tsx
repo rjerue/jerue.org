@@ -18,40 +18,18 @@ interface Colors {
   highlight: string; // hsla(205, 100%, 40%, 0.125)
 }
 
-type RGBColor = [number, number, number];
-function makeColor([r, g, b]: RGBColor, a = 1): string {
-  return `rgba(${r}, ${g}, ${b}, ${a})`;
-}
-
-async function refreshThemeColorsFromColormind(): Promise<Partial<Colors>> {
-  // niNcEMl95H8DZeqlAfi4b62lapJ56j2N79lpinSe
-  const color = await fetch(
-    "https://oycz17dpn0.execute-api.us-east-1.amazonaws.com/production",
-    {
-      method: "post",
-      body: JSON.stringify({
-        model: "ui",
-      }),
-      headers: {
-        "x-api-key": "niNcEMl95H8DZeqlAfi4b62lapJ56j2N79lpinSe",
-      },
-    }
-  )
-    .then((result) => result.json())
-    .then(
-      (data) =>
-        data.result as [RGBColor, RGBColor, RGBColor, RGBColor, RGBColor]
-    );
-  return {
-    text: makeColor(color[0]),
-    background: makeColor(color[4]),
-    primary: makeColor(color[2]),
-    muted: makeColor(color[3]),
-    highlight: makeColor(color[1]),
-  };
+/**
+ * Min and max are inclusive
+ * @returns random number
+ */
+function getRandomInt(floor: number, ceil: number) {
+  const min = Math.ceil(floor);
+  const max = Math.floor(ceil + 1);
+  return Math.floor(Math.random() * (max - min) + min);
 }
 
 export const ThemeRefresher = React.createContext({
+  canRefreshTheme: false,
   refreshTheme: async () => {
     console.error("No Theme to refresh!");
   },
@@ -71,8 +49,14 @@ const components = {
 
 class MyApp extends App {
   state = {
+    themes: [] as (typeof preset)[],
     theme: preset,
   };
+
+  setThemesFromColormindSet = async () => {
+    const themes = await fetch("/static/colors.json").then((r) => r.json());
+    this.setState({  themes  });;
+  };;
 
   refreshThemeColors = async (): Promise<void> => {
     this.setState({
@@ -80,7 +64,7 @@ class MyApp extends App {
         ...preset,
         colors: {
           ...this.state.theme.colors,
-          ...(await refreshThemeColorsFromColormind()),
+          ...this.state.themes[getRandomInt(0, 99)],
         },
       },
     });
@@ -97,6 +81,10 @@ class MyApp extends App {
     });
   };
 
+  componentDidMount() {
+    this.setThemesFromColormindSet()
+  }
+
   render(): JSX.Element {
     const { Component, pageProps } = this.props;
     const { theme } = this.state;
@@ -109,6 +97,7 @@ class MyApp extends App {
         </Head>
         <ThemeRefresher.Provider
           value={{
+            canRefreshTheme: this.state.themes.length > 0,
             refreshTheme: this.refreshThemeColors,
             resetTheme: this.resetThemeColors,
           }}
