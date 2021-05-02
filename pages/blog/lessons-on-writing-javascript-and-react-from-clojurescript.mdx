@@ -241,11 +241,11 @@ access to all of Clojure's
 [collections](https://clojure.org/reference/data_structures#Collections) and
 libraries around them are especially powerful. The key is that under the hood,
 they are implemented with _only_ immutability in mind using techniques such as
-structural sharing making them far more performant than just doing the
+structural sharing, making them far more performant than just doing the
 operations on objects. There are libraries such as immutablejs that allow for
 folks to get a lot of these tools as well, but having it native to the language
-is next level in terms of support and documentation. Let's start with a trivial
-example such as updating a nested value in an object.
+is next level in terms of support and documentation. Lets start with a trivial
+example such as updating a nested value in an object immutably.
 
 ```js
 const obj = { i: { j: { k: 1 } } };
@@ -256,6 +256,8 @@ const newObj = { ...obj, i: { ...obj.i, j: { ...obj.i.j, k: obj.i.j.k + 1 } } };
 
 ```clojure
 (def obj {:i {:j {:k 1}}})
+
+; update k by one immutably
 (def new-obj (update-in obj [:i :j :k] inc))
 ```
 
@@ -268,16 +270,16 @@ allows for one to write their code to be far more declarative. The JavaScript
 that is outputted by ClojureScript is even optimized by Google's Closure
 Compiler resulting in highly efficient sources.
 
-Ironically, React's author [Jordan Walke](https://twitter.com/jordwalke) must
-have somewhat agreed with the above because after React, he went on to create a
-functional immutability first language called
-[ReasonML](https://reasonml.github.io/) that also compiles down to JavaScript.
-While ReasonML is by all accounts fantastic, it is though not the subject to
-which I am writing.
+Interestingly, React's original author
+[Jordan Walke](https://twitter.com/jordwalke) must have somewhat agreed with the
+above because after React, he went on to create a functional immutability first
+language called [ReasonML](https://reasonml.github.io/) that also compiles down
+to JavaScript. While ReasonML is by all accounts fantastic, it is not the
+subject to which I am writing 😉.
 
-## JSX is gateway drug. Say no to drugs.
+## JSX a is gateway drug. Say no to drugs.
 
-[At Reactathon in 2019, I recall somebody calling JSX, the "Gateway Drug to React"](https://www.youtube.com/watch?v=mtjHxwUQUs0)
+[At Reactathon in 2019, I recall somebody calling JSX: the "Gateway Drug to React"](https://www.youtube.com/watch?v=mtjHxwUQUs0)
 (Can't recall who said it, and don't have 5 hours to re-watch it all). It makes
 React easy to pick up for someone that knows a little JavaScript and HTML.
 However, HTML is _too_ declarative of an S-expression to be efficient in
@@ -307,9 +309,9 @@ function Component() {
 Having the ability to write something that looks like HTML in the JavaScript
 makes it very easy to learn and work with. However, XML is a pretty poor data
 type to use for this problem. The JSX actually gets transformed into function
-calls. Particularly, this is with
+calls. Particularly, this is accomplished with
 [`React.createElement`](https://reactjs.org/docs/react-api.html#createelement)
-which takes in three arguments:
+taking in three arguments:
 
 - Tag name
 - Props
@@ -325,10 +327,10 @@ function Component() {
 }
 ```
 
-Was ever explored as an alternative to JSX? While dubbed down, it does use
+Was this ever explored as an alternative to JSX? While dumbed down, it does use
 native data structures which would have an advantage of being more easily able
-to parse out than jsx, however since JavaScript doesn't have as strong of an
-ability to create data with expressions, developers don't really gain anything.
+to parse out than jsx. However, since JavaScript does not have as strong of an
+ability to create data with expressions, developers do not really gain anything.
 
 Let's say you had a component that looked like this
 
@@ -362,8 +364,8 @@ function Component({ children }) {
 }
 ```
 
-One can write something like an Immediately-invoked Function Expressions (IIFE)
-in an effort make this more expressive:
+One can write something like an Immediately-invoked Function Expression (IIFE)
+in an effort to make this more expressive:
 
 ```jsx
 function Component({ children }) {
@@ -401,16 +403,16 @@ function Component({ children }) {
 }
 ```
 
-JSX already has enough uglyness to it, adding an IIFE arguably makes things even
+JSX already has enough ugliness to it, adding an IIFE arguably makes things even
 more confusing and perhaps harder in the future to debug. One could also make
 another component, but that would be even more boilerplate and code to maintain.
 This isn't a problem with React. React _wants_ you to put an expression in
-there. technically, it is possible to do with nested ternary operators, but even
+there. Technically, it is possible to do with nested ternary operators, but even
 that gets more confusing.
 
 Clojure as stated before takes the attitude of using a vector (similar to an
 array in js) to express the markup as opposed to XML in a format called
-[hiccup](https://github.com/weavejester/hiccup). This can become a denser in
+[hiccup](https://github.com/weavejester/hiccup). This can become even denser in
 fewer lines of code with clojure:
 
 ```clojure
@@ -431,9 +433,10 @@ Clojure is able to pull this off because unlike JavaScript, everything is an
 expression! Additionally, like many of these examples, this is only the
 beginning. What I really wanted to do in the past was define enums to represent
 states of the application based on loading, data and error states. Then, I
-wanted to just write a switch statement inside of the JSX on the enum to
-conditionally render. Clojure gives on the opportunity to use `cond` or `case`
-similar to said switch statement to do that as an expression.
+wanted to write a switch statement inside of the JSX on the enum to
+conditionally render. On the other hand, Clojure gives one the opportunity to
+use a `cond` or `case` statement to accomplish this functionally as demonstrated
+above.
 
 However, for those of us that still do love JavaScript (yes, I do!), there is a
 [pattern matching proposal that TC-39 has on their radar](https://github.com/tc39/proposal-pattern-matching).
@@ -445,20 +448,20 @@ One of the reasons why I decided to move onto a Clojure shop was that I really
 enjoyed functional programming models and I wanted to learn more using one of
 the marquee languages for doing it. Even if you don't intend on using Clojure or
 ClojureScript in production, it is definitely a useful exercise to try building
-functional declarative UIs in them with React to see what you do in a language
-that barely supports mutability of any kind and how that motivates the
-JavaScript that you will write in the future. Coming from TypeScript has made me
-miss types and appreciate the runtime checks of
-[`spec`](https://clojure.org/guides/spec). There are lots of reasons to pick a
-certain tool to use. Node is often in my tool belt so that I can use one
-language on both the browser and the server. Clojure is traditionally used on
-the back end of stacks, and ClojureScript is what gives it an opportunity to
-shine on the front end! Many will say Clojure actually really shines on the back
-end with how it sits on top of the JVM. As convenient as node is, it is nowhere
-near as fast as the JVM, nor does it support technologies such as
-multi-threading out of the box.
+functional declarative UIs in them. Try using ClojureScript and Reagent to see
+what you do in a language that barely supports mutability of any kind and how
+that motivates the JavaScript that you will write in the future. Previously
+working with TypeScript has made me miss types and appreciate the runtime checks
+of [`spec`](https://clojure.org/guides/spec). There are many
+advantages/tradeoffs that come with picking a particular tool. Node is often in
+my tool belt so that I can use one language on both the browser and the server.
+Clojure is traditionally used on the back end of stacks, and ClojureScript is
+what gives it an opportunity to shine on the front end. Many will say Clojure
+actually really flexes on the back end with how it sits on top of the JVM. As
+convenient as node is, it is nowhere near as fast as the JVM, nor does it
+support technologies such as multi-threading out of the box.
 
-If you want to work with Clojure and ClojureScript professionally, we're also
+If you want to work with Clojure and ClojureScript professionally, we are also
 hiring at [Reify Health](https://www.reifyhealth.com/careers)! While you do not
-need to know Clojure prior to joining, having a ❤ for functional programming is
-always a plus!
+need to know Clojure prior to joining (I didn't!), having a ❤ for functional
+programming is always a plus!
