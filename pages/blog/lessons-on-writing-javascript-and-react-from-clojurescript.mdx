@@ -33,8 +33,8 @@ function addTwo(x, y) {
 const alsoAddTwo = (x, y) => x + y;
 ```
 
-By little syntax, I don't mean the code golf of how many characters it takes to
-express an idea. I mean the amount of symbols that it takes to express the
+By little syntax, I don't mean the code-golf of how many characters it takes to
+express an idea. I mean the number of symbols that it takes to express the
 language. In Clojure, the syntax is largely parenthesis and functions. There are
 also `@` symbols for expressing async behavior. I enjoy it because there is
 little cognitive load in terms of understanding what the program is doing.
@@ -109,8 +109,8 @@ been designed for years.
 Web applications do not have to be some abomination. One can model them like any
 other system: Views that are derived from some sort of database. APIs often do
 this through RESTful endpoints that sit on top of some database. Reads and
-writes into that database are often times done predictably at different layers
-of the application. There is no reason why one can not model front ends of an
+writes into that database are oftentimes done predictably at different layers of
+the application. There is no reason why one can not model front ends of an
 application to look the same way. Instead of an endpoint sitting atop a
 database, it is a React component with a selector that sits on top of a redux
 store. Instead of writing SQL, one would write the path to the useful data in
@@ -125,19 +125,19 @@ requires even more boilerplate. The typical process in a JS app is to create the
 reducers to represent the state, put those into a redux provider, create actions
 that update the reducer, and create components that allow for the user to read
 from the store as well as dispatch actions. I'd give a full example of redux
-boilerplate, but most readers (myself included) would probably get board and not
-read the other points.
+boilerplate, but most readers (myself included) would probably get bored and not
+read the other points 😅.
 [Take Twitter's word for it.](https://twitter.com/search?q=Redux%20Boilerplate)
 
 Most modern front end web applications also require some sort of network
-communication with a backend server. Often, Redux users just accomplish this
-through using something like
-[Redux Thunk](https://github.com/reduxjs/redux-thunk). This allows async logic
-to exist inside of dispatched actions. This is a very nice feature and why I
-still prefer redux for API requests over the context API, which would require
-one to keep passing the `dispatch` function created by `useReducer` throughout
-the call stack. One can go even further and create observables to handle these
-concerns using something called [Redux Saga](https://redux-saga.js.org/).
+communication with a backend server. Often, Redux users just accomplish this by
+using something like [Redux Thunk](https://github.com/reduxjs/redux-thunk). This
+allows async logic to exist inside of dispatched actions. This is a very nice
+feature and why I still prefer redux for API requests over the context API,
+which would require one to keep passing the `dispatch` function created by
+`useReducer` throughout the call stack. One can go even further and create
+observables to handle these concerns using something called
+[Redux Saga](https://redux-saga.js.org/).
 
 ### Enter, Re-Frame
 
@@ -149,12 +149,12 @@ then sent off to a reducer which evaluates that type as part of a `switch`
 statement. One usually does this by having to create strings by hand, export
 them, and import them all over the place to solve this. TypeScript let folks
 create enums, which is nice on the definition side, but still requires imports.
-Clojure let's folks make keywords. `:hello` will be evaluated the same
-throughout the program. However, this is a shortcut and most folks will have the
-keywords "fully qualified." In this case one would declare `::hello` in a
-namespace and it would be bound to that namespace. One can still import and
-export it though, but one never has to worry about the string level collisions
-that could happen in a JS app.
+Clojure lets folks make keywords. `:hello` will be evaluated the same throughout
+the program. However, this is a shortcut and most folks will have the keywords
+"fully qualified." In this case one would declare `::hello` in a namespace and
+it would be bound to that namespace. One can still import and export it though,
+but one never has to worry about the string level collisions that could happen
+in a JS app.
 
 Re-frame doesn't use actions, it uses something called effects. Effects, like
 actions, are dispatched by components (or other effects), and update the state.
@@ -183,10 +183,10 @@ following the model of writing a web application like any traditional
 application.
 
 It is worth adding that similar to redux, there is one big global state store in
-re-frame. One declares this up front by creating the initial app-db, which is
-really just one big reagent/atom. Like Redux, one may put default state values
-in there. One may even take advantage of libraries like `datascript` to have a
-more database-like interface into the state rather than just updating an object.
+re-frame. One declares this upfront by creating the initial app-db, which is
+just one big reagent/atom. Like Redux, one may put default state values in
+there. One may even take advantage of libraries like `datascript` to have a more
+database-like interface into the state rather than just updating an object.
 
 What does all this look like? How can it have less boilerplate?
 
@@ -262,9 +262,9 @@ const newObj = { ...obj, i: { ...obj.i, j: { ...obj.i.j, k: obj.i.j.k + 1 } } };
 ```
 
 Despite Clojure's somewhat deserved reputation of having a lot of parentheses,
-the Clojure update is a lot simpler! This is really just the beginning. `assoc`
-has far better ergonomics than something like a spread and adding of a new key
-or `Object.assign` and is far more performant since ClojureScript is a compiled
+the Clojure update is a lot simpler! This is just the beginning. `assoc` has far
+better ergonomics than something like a spread and adding of a new key or
+`Object.assign` and is far more performant since ClojureScript is a compiled
 language. Albeit, ClojureScript is compiled to JavaScript, but compilation
 allows for one to write their code to be far more declarative. The JavaScript
 that is outputted by ClojureScript is even optimized by Google's Closure
@@ -318,7 +318,7 @@ taking in three arguments:
 - Children
 
 Hmm, positional arguments! What is a data type that exists in JavaScript that
-helps us with positions. Arrays! Could that button above be made like...
+helps us with positions? Arrays! Could that button above be made like...
 
 ```js
 function Component() {
@@ -332,7 +332,7 @@ native data structures which would have an advantage of being more easily able
 to parse out than jsx. However, since JavaScript does not have as strong of an
 ability to create data with expressions, developers do not really gain anything.
 
-Let's say you had a component that looked like this
+Lets say you had a component that looked like this
 
 ```jsx
 function Component({ children }) {
@@ -429,13 +429,13 @@ fewer lines of code with clojure:
      children)))
 ```
 
-Clojure is able to pull this off because unlike JavaScript, everything is an
+Clojure can pull this off because unlike JavaScript, everything is an
 expression! Additionally, like many of these examples, this is only the
 beginning. What I really wanted to do in the past was define enums to represent
 states of the application based on loading, data and error states. Then, I
 wanted to write a switch statement inside of the JSX on the enum to
-conditionally render. On the other hand, Clojure gives one the opportunity to
-use a `cond` or `case` statement to accomplish this functionally as demonstrated
+conditionally render. On the other hand, Clojure gives allows one to use a
+`cond` or `case` statement to accomplish this functionally as demonstrated
 above.
 
 However, for those of us that still do love JavaScript (yes, I do!), there is a
@@ -452,14 +452,14 @@ functional declarative UIs in them. Try using ClojureScript and Reagent to see
 what you do in a language that barely supports mutability of any kind and how
 that motivates the JavaScript that you will write in the future. Previously
 working with TypeScript has made me miss types and appreciate the runtime checks
-of [`spec`](https://clojure.org/guides/spec). There are many
-advantages/tradeoffs that come with picking a particular tool. Node is often in
-my tool belt so that I can use one language on both the browser and the server.
-Clojure is traditionally used on the back end of stacks, and ClojureScript is
-what gives it an opportunity to shine on the front end. Many will say Clojure
-actually really flexes on the back end with how it sits on top of the JVM. As
-convenient as node is, it is nowhere near as fast as the JVM, nor does it
-support technologies such as multi-threading out of the box.
+of [`spec`](https://clojure.org/guides/spec). Many advantages/tradeoffs that
+come with picking a particular tool. Node is often in my tool belt so that I can
+use one language on both the browser and the server. Clojure is traditionally
+used on the back end of stacks, and ClojureScript is what gives it an
+opportunity to shine on the front end. Many will say Clojure actually really
+flexes on the back end with how it sits on top of the JVM. As convenient as node
+is, it is nowhere near as fast as the JVM, nor does it support technologies such
+as multi-threading out of the box.
 
 If you want to work with Clojure and ClojureScript professionally, we are also
 hiring at [Reify Health](https://www.reifyhealth.com/careers)! While you do not
