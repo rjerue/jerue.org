@@ -24,7 +24,8 @@
     "emotion-theming": "^10.0.27",
     "humanize-string": "^2.1.0",
     "next": "^9.5.4",
-    "prism-react-renderer": "^1.0.2",
+    "prism-react-renderer": "^1.2.0",
+    "prismjs": "^1.23.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "rebass": "^4.0.7",
@@ -35,6 +36,7 @@
   "description": "",
   "devDependencies": {
     "@types/mdx-js__react": "^1.5.0",
+    "@types/prismjs": "^1.16.5",
     "@types/rebass": "^4.0.4",
     "@typescript-eslint/eslint-plugin": "3.7.1",
     "@typescript-eslint/parser": "3.7.1",
