@@ -1,6 +1,12 @@
 import React from "react";
 import Highlight, { defaultProps, Language } from "prism-react-renderer";
 
+// from FAQ for requiring new languages https://github.com/FormidableLabs/prism-react-renderer#faq
+//@ts-ignore
+import Prism from "prism-react-renderer/prism";
+(typeof global !== "undefined" ? global : window).Prism = Prism;
+require("prismjs/components/prism-clojure");
+
 interface CodeBlockProps {
   children: string;
   className: string;

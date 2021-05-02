@@ -1,23 +1,14 @@
 import React from "react";
 import { Box, Text, BoxProps } from "rebass";
-import humanize from "humanize-string";
-import titleize from "titleize";
 import { Header } from "./Header";
 import { Blog } from "../types/Blog";
 
-export interface TitleTextProps extends Pick<Blog, "slug" | "date">, BoxProps {
-  title?: string;
-}
+export type TitleTextProps = Pick<Blog, "title" | "date"> & BoxProps;
 
-const TitleText: React.FC<TitleTextProps> = ({
-  title,
-  slug,
-  date,
-  ...props
-}) => {
+const TitleText: React.FC<TitleTextProps> = ({ title, date, ...props }) => {
   return (
     <Box overflow="hidden" {...props}>
-      <Header display="inline">{titleize(title || humanize(slug))} </Header>
+      <Header display="inline">{title} </Header>
       <Text
         display="inline"
         sx={{

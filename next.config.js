@@ -9,7 +9,7 @@ const withMDX = require("@next/mdx")({
 });
 
 const nextConfig = {
-  exportTrailingSlash: true,
+  trailingSlash: true,
   pageExtensions: ["ts", "tsx", "mdx"],
   pwa: {
     dest: "public",
