@@ -375,19 +375,14 @@ function Component({ children }) {
     <div>
       {(function () {
         if (loading) {
-          return;
-          <div>
-            <div>loading...</div>
-            {children}
-          </div>;
+          return (
+	    <div>loading...</div>
+	  );
         }
         if (error) {
           console.error("Uh oh!");
           return (
-            <div>
-              <div style={{ color: "red" }}>{error.message}</div>
-              {children}
-            </div>
+            <div style={{ color: "red" }}>{error.message}</div>
           );
         }
         return (
