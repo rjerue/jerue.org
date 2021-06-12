@@ -15,9 +15,10 @@ const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
       <Header>Blog Posts:</Header>
       <Box paddingTop={1} paddingX={[0, 4]}>
         {blogs.map(({ intro, slug, date, hidden, title }) => {
+          const href = `/blog/${slug}`;
           return (
             !hidden && (
-              <Link href={`/blog/${slug}`} key={slug}>
+              <Link href={href} key={slug} scroll>
                 <Box
                   mb={3}
                   sx={{
@@ -27,11 +28,13 @@ const BlogList: React.FC<BlogListProps> = ({ blogs }) => {
                     },
                   }}
                 >
-                  <Box>
-                    <RLink href="" sx={{ textDecoration: "none" }} width="100%">
-                      <TitleText date={date} title={title} />
-                    </RLink>
-                  </Box>
+                  <RLink
+                    href={href}
+                    sx={{ textDecoration: "none" }}
+                    width="100%"
+                  >
+                    <TitleText date={date} title={title} />
+                  </RLink>
                   <Text marginTop={"4px"}>{intro}</Text>
                 </Box>
               </Link>
