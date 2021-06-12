@@ -49,7 +49,7 @@ const components = {
 
 class MyApp extends App {
   state = {
-    themes: [] as (typeof preset)[],
+    themes: [] as typeof preset[],
     theme: preset,
   };
 
@@ -57,8 +57,8 @@ class MyApp extends App {
     const themes = (await fetch("/static/colors.json").then((r) =>
       r.json()
     )) as Colors[];
-    this.setState({  themes  });;
-  };;
+    this.setState({ themes });
+  };
 
   refreshThemeColors = async (): Promise<void> => {
     this.setState({
@@ -84,13 +84,12 @@ class MyApp extends App {
   };
 
   componentDidMount() {
-    this.setThemesFromColormindSet()
+    this.setThemesFromColormindSet();
   }
 
   render(): JSX.Element {
     const { Component, pageProps } = this.props;
     const { theme } = this.state;
-    // console.log(theme);
     return (
       <>
         <Head>
