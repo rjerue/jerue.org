@@ -131,6 +131,12 @@ class MyApp extends App {
               a {
                 color: ${theme.colors.primary};
               }
+              li {
+                padding-bottom: 4px;
+              }
+              li:last-of-type {
+                padding-bottom: 0px;
+              }
             `}</style>
           </ThemeProvider>
         </ThemeRefresher.Provider>

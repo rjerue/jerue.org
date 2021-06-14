@@ -17,8 +17,8 @@ const HomePage: NextPage<BlogListProps> = ({ blogs }) => {
             Massachusetts Amherst.
           </Text>
           <Text as="li">
-            Enjoy working with JavaScript, TypeScript, React, React Native,
-            Java, REST, GraphQL, APIs, SQL, MongoDB, and more.
+            Enjoy working with JavaScript, TypeScript, Clojure(Script), React,
+            React Native, Java, REST, GraphQL, APIs, SQL, MongoDB, and more.
           </Text>
           <Text as="li">
             I love photography; hiking and camping; cheering on Liverpool, Red
