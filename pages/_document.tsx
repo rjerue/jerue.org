@@ -10,7 +10,7 @@ class MyDocument extends Document {
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <meta
             name="Description"
-            content="Website and technical blog of Ryan Jerue, a Software engineer in Southern California"
+            content="Website and technical blog of Ryan Jerue, a Software engineer in the United States."
           />
           <meta
             name="keywords"
