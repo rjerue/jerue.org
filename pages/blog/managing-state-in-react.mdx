@@ -1,0 +1,124 @@
+export const intro = `State in big react applications can get really messy really 
+quick; it does not have to be this way! Often one has effects around state in an
+effort to keep bits of state in sync. This leads to lots of indirection and bugs.
+What if instead, we write hooks around services and use state as a tool to 
+track differences between client and server state.
+`;
+
+export const date = "10/17/2021";
+export const title =
+  "Managing State With Hooks And react-query For A Component Library";
+
+<TitleText mt={3} title={title} date={date} />
+
+<p>{intro}</p>
+
+### State Anarchy
+
+Tell me if you've seen something like this before in a react app:
+
+```tsx
+const Component = ({ someCallback }) => {
+  const [value, valueSet] = React.useState("");
+  React.useEffect(() => {
+    someCallback(value);
+  }, [value]);
+  return (
+    <div>
+      <label htmlFor="my-form">My form</label>
+      <input value={value} onChange={(e) => valueSet(e.target.value)} />
+    </div>
+  );
+};
+```
+
+It is a component with some local state that has an effect which listens to the
+state being updated, and has a callback that takes in the updated state to do
+something elsewhere in your app. I have done this before, you have done this
+before, and it is how things are often handled in react apps.
+[Lots of beginner tutorials do this too.](https://github.com/mdn/todo-react/blob/master/src/App.js)
+To be clear, the correctness of this approach is a good as any. Especially if
+the app that is being written is fully driven by some sort of client state like
+a classic Todo app example. If hacking away on some personal project, or in a
+crunch to get something done, there is nothing _wrong_ with taking this
+approach. However as a professional, there comes a point where we start to care
+about different questions too:
+
+- How can I reuse parts of this code?
+- How can this be tested in pieces?
+- Where can I define clear boundaries?
+- How quickly can I onboard someone to using this?
+- Will this pattern scale?
+
+This is where things get complicated. Often times we reach for similar state
+patterns and throw in things such as the context API, or redux. Maybe we do not
+because we can composed our components very well. There's some fundamental
+issues with lots of these approaches though.
+
+#### Global State
+
+Lots of folks that have been react developers for a few years often reach for
+things such as Redux for solving the global state problem. Redux allows for
+applications to have a global state store. Components can subscribe to state or
+dispatch events from any level in the DOM tree. This can be a pretty powerful
+tool, but it is one without many guardrails. It was often maligned because of a
+high amount of boilerplate, though things like Redux starter kit have cut down
+on this greatly.
+
+However, Redux is not without its tradeoffs. It does not include many guardrails
+for defining state. Naive approaches are often using a single reducer to control
+all state, or slicing reducers by pages. The ladder approach is also the one
+that many folks take with React Context + a useReducer hook. It's difficult, but
+not impossible, to properly partition one's redux state so that components can
+be tested individually. This makes testing often times a lot fo work, and one
+needs to go out of their way to write testable code.
+
+That being said, it's sill possible to do so, however in organizations, the
+biggest issue with Redux is that is not as friendly to a component library
+model. Redux is a tool most often used for _application_ state as opposed to
+component state. It can take lots of thought and effort to cut up component
+state into a model where one can keep track of component state in a reusable
+way.
+
+Context being native to React attempts to solve some of these things. Why not
+just have a context per component! A chicken in every pot! That can be a lot of
+boilerplate too, and interactions between contexts can get clunky. There's also
+not too much in terms of guardrails still as many just pull context to a nearly
+global scope. Implicit dependencies that things like context introduces also can
+be counterproductive in making code reusable as that dependency often _must_ be
+included.
+
+#### Hyper Local State
+
+A lot of developers try to cut down on their use of global state in an effort to
+make small, testable, and reusable react components. This approach also can have
+problems associated with it. A common one is that state is heavily coupled to
+the view of a component. How many times have you got a product requirement
+that's something along the lines of _we want that picker just like the blue team
+has in their app, but we want it to be green and add one to all the data_? Just
+me? 😅
+
+When we write components with these things coupled, it means that the
+consumption of them is also coupled. As soon as I have to go into the blue
+team's components and cook up a spicey copypasta recipe, that becomes an entire
+new component I have to develop, maintain, and test! No fun! Lots of open source
+component libraries handle things like this through having a callback based API
+on components, but of course they do since the whole point is they are BYOS
+(bring your own state). There was an idea in redux that we could write
+Container + Presentational components; but more often, these divisions are
+arbitrary. This led to myself among others cutting things into visual components
+and then having state driven by containers are a page level. Look, you can
+import the visual components and BYOS!
+
+That pattern is nice enough, but what about the second part of the product
+requirement that I mentioned. Now we have to rewrite the integration with that
+API? I am only getting half of the reuse that I could! Now I have to write,
+maintain, and test that integration too! Wicked not fun! There's also two
+integrations into an API. This can be redundant in organization, and can lead to
+unintended side effects if the two implementations differ too much.
+
+### Apps vs. Components
+
+Aps are most concerned about state whereas components care about visual aspects.
+
+...
