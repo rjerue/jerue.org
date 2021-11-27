@@ -90,6 +90,7 @@ class MyApp extends App {
   render(): JSX.Element {
     const { Component, pageProps } = this.props;
     const { theme } = this.state;
+    console.log("theme", theme.colors);
     return (
       <>
         <Head>
@@ -113,6 +114,13 @@ class MyApp extends App {
               body {
                 background-color: ${theme.colors.background};
                 font-family: "verdana";
+              }
+              code {
+                color: ${theme.colors.secondary};
+                font-size: 0.9rem;
+                background-color: ${theme.colors.highlight};
+                padding: 0px 2px 2px;
+                border-radius: 4px;
               }
               h1,
               h2,
