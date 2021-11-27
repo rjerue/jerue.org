@@ -4,7 +4,7 @@ storybook with React are great for developing components, sometimes it makes sen
 be run in. The npm link command breaks things though as it creates a symlink with two versions of React. Here's how we can fix this with yalc!
 `;
 
-export const date = "11/27/2021";
+export const date = "11/28/2021";
 export const title =
   "Using yalc Instead Of npm Or yarn link To Develop React Components";
 
@@ -48,8 +48,8 @@ Now, go into the `cra-app` and do a `yarn install` followed by
 node_modules folder of `cra-app`. Run `npm start` in the `cra-app` and the app
 should render! There should be text that reads "Hello World" in the browser!
 
-Mission accomplished! Time to go home right! Let's try just throwing a hook into
-`MyComponent` now and do a `yarn build` in `my-component`!
+Mission accomplished! Time to go home right!? Let's try just throwing a hook
+into `MyComponent` now and do a `yarn build` in `my-component`!
 
 ```jsx
 import React from "react";
@@ -83,9 +83,9 @@ function component. This could happen for one of the following reasons:
    fix this problem.
 ```
 
-That's no fun! Let's take a close look at the error means!
+That's no fun! Let's take a close look at what the error means:
 
-1. My package.json in has the versions of React and React DOM being the same, so
+1. My package.json has the versions of React and React DOM being the same, so
    likely not this.
 2. Pretty sure I'm not breaking the rules of hooks.
 3. Is there more than one version of React?
@@ -111,7 +111,7 @@ cra-app@0.1.0 /Users/rjerue/dev/yalc-examples/cra-app
 Uh oh! There is indeed two versions of react living inside of our application!
 There's one inside of our cra app, and there is another in the component
 library. But why? I have peer dependencies set up correctly and at the very
-least, they're the same version so it should be deduped, right? RIGHT?
+least, they're the same version so it should be deduplicated, right? RIGHT?
 
 Well, if this was treated like a _real_ dependency, yes. However, technically
 `my-component` isn't even in our package.json, it was added via npm link. Even
@@ -127,7 +127,7 @@ error will go away. Heck, why even include it as a devDependency? Well in the
 real world, one likely has tests living alongside their components, and that
 will indeed need some version of react to run those tests against. React is also
 just the tip of the iceberg. One could also run into problems with things that
-require a single instance of a library such as things that create new react
+require a single instance of a library, such as things that create new react
 contexts that both applications would consume the same instance of.
 
 ### Falling in love with yalc
