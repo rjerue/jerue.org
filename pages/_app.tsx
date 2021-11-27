@@ -90,7 +90,6 @@ class MyApp extends App {
   render(): JSX.Element {
     const { Component, pageProps } = this.props;
     const { theme } = this.state;
-    console.log("theme", theme.colors);
     return (
       <>
         <Head>
