@@ -1,4 +1,4 @@
-export const intro = `Often times as developers, we are given the task of doing some sort of component library with react. More often, we
+export const intro = `Often as developers, we are given the task of doing some sort of component library with react. More often, we
 are in organizations and placed onto teams. Sometimes, those teams own component libraries that need to be put somewhere. While things like
 storybook with React are great for developing components, sometimes it makes sense to develop them in the application that they are going to
 be run in. The npm link command breaks things though as it creates a symlink with two versions of React. Here's how we can fix this with yalc!
@@ -17,13 +17,13 @@ export const title =
 My favorite way of building component libraries is in a monorepo using yarn
 workspaces. I recently converted
 [craco-babel-loader](https://github.com/rjerue/craco-babel-loader) to use such a
-style here. What's nice is that since everything is using a package.json like it
+style here. What's nice is that since everything is using a package.json as it
 would in the wild, there's little "magic" that needs to be done outside of just
 using workspaces. Unfortunately, not all projects, especially enterprise ones
 can fall neatly into this bucket. So, conventional wisdom says one should
 probably use [npm link](https://docs.npmjs.com/cli/v8/commands/npm-link) or
 [yarn link](https://classic.yarnpkg.com/en/docs/cli/link/) to develop a package
-separate to where it would be used.
+separate from where it would be used.
 
 Note, throughout this, one should be able to substitute the use of npm link for
 yarn link. You can use either link command in either package manager and will
@@ -33,16 +33,17 @@ run into just about the same nuances.
 
 Let's try it!
 
-I've created the following repo as an example. It contains a standard CRA
-application in the `cra-app` folder with `my-component` as the stand in for our
-component library.
+I've created the
+[following repo as an example](https://github.com/rjerue/link-usage-example). It
+contains a standard CRA application in the `cra-app` folder with `my-component`
+as the stand-in for our component library.
 
 Start by cloning it down, and doing a `cd my-component` followed by a
 `yarn install`, `yarn build`, and finally: `npm link`. This will create a global
 link for what is listed as the `name` field in the `package.json` file. You
 should get a message saying that the package was added.
 
-Now, go into the `cra-app` and do an `yarn install` followed by
+Now, go into the `cra-app` and do a `yarn install` followed by
 `npm link my-component`. This will add a symlink for `my-component` in the
 node_modules folder of `cra-app`. Run `npm start` in the `cra-app` and the app
 should render! There should be text that reads "Hello World" in the browser!
@@ -89,7 +90,7 @@ That's no fun! Let's take a close look at the error means!
 2. Pretty sure I'm not breaking the rules of hooks.
 3. Is there more than one version of React?
 
-That's our only remaining option right? There's a pretty useful command called
+That's our only remaining option, right? There's a pretty useful command called
 `npm ls` that will tell us what is hanging out in our node modules folder.
 
 ```bash
@@ -107,7 +108,7 @@ cra-app@0.1.0 /Users/rjerue/dev/yalc-examples/cra-app
 └── react@17.0.2
 ```
 
-Uh oh! There is indeed two version of react living inside of our application!
+Uh oh! There is indeed two versions of react living inside of our application!
 There's one inside of our cra app, and there is another in the component
 library. But why? I have peer dependencies set up correctly and at the very
 least, they're the same version so it should be deduped, right? RIGHT?
@@ -115,8 +116,8 @@ least, they're the same version so it should be deduped, right? RIGHT?
 Well, if this was treated like a _real_ dependency, yes. However, technically
 `my-component` isn't even in our package.json, it was added via npm link. Even
 if it was in there though, adding it via npm link creates a symlink inside of
-node_modules to the root of `my-component`. The `my-component` directory has
-it's own `node_modules` folder and inside of it... it's own version of react.
+node_modules to the root of `my-component`. The `my-component` directory has its
+own `node_modules` folder and inside of it... its own version of react.
 
 All `npm link` does is just create a symlink, it doesn't rebuild the module tree
 to dedupe the version of react.
@@ -131,17 +132,17 @@ contexts that both applications would consume the same instance of.
 
 ### Falling in love with yalc
 
-It's my opinion that `npm link` is broken. All it serves as is a fancy wrapper
-around `ln`. Npm's module resolution algorithm does not care that it's a
+It is my opinion that `npm link` is broken. All it serves as is a fancy wrapper
+around `ln`. Npm's module resolution algorithm does not care that it is a
 symlink. It'll treat the folder like any other application and look for
-dependencies in it's own package before moving a folder upwards. The first
-instance of react found by the code in `my-component/dist/index.js` is in
+dependencies in its package before moving a folder upwards. The first instance
+of react found by the code in `my-component/dist/index.js` is in
 `my-component/node_modules/react` rather than the node_modules of cra-app. One
 solution is to create more symlinks, but this does not really solve other issues
-and can lead to a big pain. Luckily there's a better way.
+and can lead to big pain. Luckily there's a better way.
 
 The library [yalc](https://github.com/wclr/yalc) by "wclr" (a.k.a. "whitecolor"
-or "alex") was made to solve this problem. In its own words it _acts as very
+or "alex") was made to solve this problem. In its own words, it _acts as a very
 simple local repository for your locally developed packages that you want to
 share across your local environment_ and was made specifically to prevent the
 problems created by using `npm link` and `yarn link`.
@@ -170,9 +171,10 @@ the message that we logged to the console earlier.
 ### Using yalc Effectively
 
 [Yalc has some pretty comprehensive documentation](https://github.com/wclr/yalc#usage)
-on how it can be used. Though, here's the cliff nodes:
+on how it can be used. Though, here's the cliff notes:
 
-- `yalc publish` 👉 Writes files that would be in npm registry to local registry
+- `yalc publish` 👉 Writes files that would be in npm registry to a local
+  registry
 - `yalc add` 👉 Adds the yalc dependency to your project over what is in the
   package.json. Adds a `.yalc` folder with contents and a signature lock file.
 - `yalc link` 👉 Similar to `npm link` but only links the files that would be in
@@ -209,7 +211,7 @@ You _should_ see those changes be hot reloaded into the running `cra-app`!
 
 #### Watching For Great DevX
 
-There's also ways that you can add a watch setup for these commands! As the
+There are also ways that you can add a watch setup for these commands! As the
 component library is using microbundle to create a single output folder, we can
 use a tool like nodemon and npm-run-all to automatically publish changes after a
 build is done!
@@ -248,8 +250,8 @@ The commands `npm link` and `yarn link` are the cause of the `Invalid hook call`
 error message because it leads to there being more than one copy of React in the
 same app. Yalc gets around this by creating something similar to a local npm
 registry and allows for you to treat your local library like any other as
-opposed to the link commands that treats them differently. This allows for one
-to develop component libraries locally in the application that is consuming it
-with all the traditional comforts of dev tools such as hot reloading!
+opposed to the link commands that treat them differently. This allows for one to
+develop component libraries locally in the application that is consuming it with
+all the traditional comforts of dev tools such as hot reloading!
 
 What sorts of cool things are you going to be building using yalc? 😎
