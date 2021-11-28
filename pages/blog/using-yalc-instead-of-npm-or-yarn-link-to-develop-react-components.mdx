@@ -1,7 +1,7 @@
-export const intro = `Often as developers, we are given the task of doing some sort of component library with React. More often, we
-are in organizations and placed onto teams. Sometimes, those teams own component libraries that need to be put somewhere. While things like
-Storybook are great for developing components, sometimes it makes sense to develop them in the application that they are going to
-be run in. The npm link command breaks things though as it creates a symlink with two versions of React. Here's how we can fix this with yalc!
+export const intro = `Ever try using npm link with React? While it works for simple examples, more often it will break
+when one starts adding hooks into their application. While things like Storybook are great for developing components in
+isolation, sometimes it makes sense to locally test components in the application that is consuming them. Lets explore why
+npm (and yarn) link is broken, and how we can use yalc to fix it!
 `;
 
 export const date = "11/28/2021";
