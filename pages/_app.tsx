@@ -7,6 +7,7 @@ import preset from "@rebass/preset";
 import Layout from "../layouts/default";
 import CodeBlock from "../components/CodeBlock";
 import TitleText from "../components/TileText";
+import { InlineCode } from "../components/InlineCode";
 
 interface Colors {
   text: string;
@@ -44,6 +45,7 @@ export function useRefreshTheme() {
 
 const components = {
   code: CodeBlock,
+  inlineCode: InlineCode,
   TitleText,
 };
 
@@ -115,11 +117,13 @@ class MyApp extends App {
                 font-family: "verdana";
               }
               code {
-                color: ${theme.colors.secondary};
+                color: ${theme.colors.primary};
+                outline: 1px solid ${theme.colors.muted};
                 font-size: 0.9rem;
                 background-color: ${theme.colors.highlight};
-                padding: 0px 2px 2px;
-                border-radius: 4px;
+                padding: 0px 3px 1px;
+                margin: 0px -1px;
+                border-radius: 8px;
               }
               h1,
               h2,

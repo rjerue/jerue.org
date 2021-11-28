@@ -19,7 +19,7 @@ async function refreshThemeColorsFromColormind() {
     background: makeColor(color[4]),
     primary: makeColor(color[2]),
     muted: makeColor(color[3]),
-    highlight: makeColor(color[1]),
+    secondary: makeColor(color[1]),
   };
 }
 
@@ -34,7 +34,7 @@ async function main() {
       return refreshThemeColorsFromColormind();
     })
   );
-  await fs.writeFile(".public/static/colors.json", JSON.stringify(colors));
+  await fs.writeFile("./public/static/colors.json", JSON.stringify(colors));
 }
 
 main();
