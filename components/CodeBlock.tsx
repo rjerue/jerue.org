@@ -1,8 +1,10 @@
 import React from "react";
 import Highlight, { defaultProps, Language } from "prism-react-renderer";
+import dracula from "prism-react-renderer/themes/dracula";
 
 // from FAQ for requiring new languages https://github.com/FormidableLabs/prism-react-renderer#faq
-//@ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import Prism from "prism-react-renderer/prism";
 (typeof global !== "undefined" ? global : window).Prism = Prism;
 require("prismjs/components/prism-clojure");
@@ -17,6 +19,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ children, className }) => {
   return (
     <Highlight
       {...defaultProps}
+      theme={dracula}
       code={children}
       language={language as Language}
     >

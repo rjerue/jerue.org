@@ -114,6 +114,13 @@ class MyApp extends App {
                 background-color: ${theme.colors.background};
                 font-family: "verdana";
               }
+              code {
+                color: ${theme.colors.secondary};
+                font-size: 0.9rem;
+                background-color: ${theme.colors.highlight};
+                padding: 0px 2px 2px;
+                border-radius: 4px;
+              }
               h1,
               h2,
               h3 {
