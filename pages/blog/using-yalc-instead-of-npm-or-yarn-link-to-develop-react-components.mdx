@@ -147,10 +147,10 @@ simple local repository for your locally developed packages that you want to
 share across your local environment_ and was made specifically to prevent the
 problems created by using `npm link` and `yarn link`.
 
-In our example, let's install yalc globally with `npm i yalc -g`. One may also
-instead install it as a dev dependency where needed and use `npx` if one would
-prefer to avoid global packages. Go into `my-component` and run `yalc publish`.
-One will get something like:
+In our example, let's install [yalc](https://github.com/wclr/yalc) globally with
+`npm i yalc -g`. One may also instead install it as a dev dependency where
+needed and use `npx` if one would prefer to avoid global packages. Go into
+`my-component` and run `yalc publish`. One will get something like:
 
 ```bash
 $ yalc publish
@@ -183,10 +183,11 @@ on how it can be used. Though, here's the cliff notes:
 One can add the `yalc.lock` lock file and `.yalc` folder to gitignore. It's not
 very useful in git.
 
-My favorite part of yalc is that the `publish` command also supports the
-propagation of updates to where the package has been added or linked. Try
-changing the component in `component-lib` while CRA is running and run the
-following command and notice the accompanying output in the terminal:
+My favorite part of [yalc](https://github.com/wclr/yalc) is that the `publish`
+command also supports the propagation of updates to where the package has been
+added or linked. Try changing the component in `component-lib` while CRA is
+running and run the following command and notice the accompanying output in the
+terminal:
 
 ```bash
 $ yarn build && yalc publish --push
@@ -248,10 +249,13 @@ files.
 
 The commands `npm link` and `yarn link` are the cause of the `Invalid hook call`
 error message because it leads to there being more than one copy of React in the
-same app. Yalc gets around this by creating something similar to a local npm
-registry and allows for you to treat your local library like any other as
-opposed to the link commands that treat them differently. This allows for one to
-develop component libraries locally in the application that is consuming it with
-all the traditional comforts of dev tools such as hot reloading!
+same app. [Yalc](https://github.com/wclr/yalc) gets around this by creating
+something similar to a local npm registry and allows for you to treat your local
+library like any other as opposed to the link commands that treat them
+differently. This allows for one to develop component libraries locally in the
+application that is consuming it with all the traditional comforts of dev tools
+such as hot reloading!
 
 What sorts of cool things are you going to be building using yalc? 😎
+
+Yalc: https://github.com/wclr/yalc
