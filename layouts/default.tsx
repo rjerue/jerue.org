@@ -17,10 +17,9 @@ const Layout: React.FC = ({ children }) => {
         <Navbar />
         <Box>
           <div>
-            I am Ryan Jerue, a Software Engineer working remotely at Reify
-            Health from Saratoga Springs, New York. My focus is in creating
-            scalable web systems. I can be contacted by email over ryan at jerue
-            dot org.
+            I am Ryan Jerue, a Software Engineer working remotely at Amazon from
+            Saratoga Springs, New York. My focus is in creating scalable web
+            systems. I can be contacted by email over ryan at jerue dot org.
           </div>
         </Box>
 

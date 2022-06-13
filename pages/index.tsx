@@ -12,9 +12,9 @@ const HomePage: NextPage<BlogListProps> = ({ blogs }) => {
         <Header>About me:</Header>
         <Box as="ul" px={[2, 4]}>
           <Text as="li">
-            Previously worked at Viasat, Charles River Development, NAVSEA, and
-            with the RIPPLES group at my alma mater, the University of
-            Massachusetts Amherst.
+            Previously worked at Reify Health, Viasat, Charles River
+            Development, NAVSEA, and with the RIPPLES group at my alma mater,
+            the University of Massachusetts Amherst.
           </Text>
           <Text as="li">
             Enjoy working with JavaScript, TypeScript, Clojure(Script), React,
