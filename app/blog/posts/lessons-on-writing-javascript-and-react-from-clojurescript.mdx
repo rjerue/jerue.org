@@ -1,0 +1,459 @@
+---
+title: "Lessons On Writing JavaScript and React From ClojureScript"
+publishedAt: "2021-05-02"
+summary:  `Recently, I started a new role as a Software Engineer at Reify Health. Unlike any other role that I have had, a 
+huge part of our product stack is written in Clojure and ClojureScript. Thankfully, I have spent my last few years 
+as a JS/TS dev working with React and as a result, have employed and appreciated a very functional style. 
+ClojureScript has unlocked whole new levels of productivity in JavaScript and React. Particularly, it has shut the 
+door on patterns that are pain points and allowed for new paradigms that JavaScript did not elegantly allow one to express.`
+---
+
+Recently, I started a new role as a Software Engineer at Reify Health. Unlike any other role that I have had, a
+huge part of our product stack is written in Clojure and ClojureScript. Thankfully, I have spent my last few years
+as a JS/TS dev working with React and as a result, have employed and appreciated a very functional style.
+ClojureScript has unlocked whole new levels of productivity in JavaScript and React. Particularly, it has shut the
+door on patterns that are pain points and allowed for new paradigms that JavaScript did not elegantly allow one to express.
+
+### Primer
+
+Unlike JS, Clojure is a LISP and has much less syntax. Want to declare a
+function?
+
+```clojure
+(defn add-two [x y]
+	(+ x y))
+```
+
+vs.
+
+```js
+function addTwo(x, y) {
+  return x + y;
+}
+// or...
+const alsoAddTwo = (x, y) => x + y;
+```
+
+By little syntax, I don't mean the code-golf of how many characters it takes to
+express an idea. I mean the number of symbols that it takes to express the
+language. In Clojure, the syntax is largely parenthesis and functions. There are
+also `@` symbols for expressing async behavior. I enjoy it because there is
+little cognitive load in terms of understanding what the program is doing.
+
+React has a lot of ways of managing state. Popular ones include `useState` and
+`useReducer` with `useContext`. There are also libraries like `mobx` and `redux`
+that force one down a certain path. React has a wrapper in ClojureScript called
+`reagent` which uses what is called `r/atoms`. A comparison:
+
+```js
+import {useContext, useState, createContext} from 'react'
+
+const MyContext = createContext()
+
+const ContextProvider = ({children}) => {
+	const [clicks, clicksSet] = useState(0);
+	return (
+		<MyContext.Provider value={{clicks, clicksSet}}>
+			{children}
+		</MyContext.Provider>
+	);
+}
+
+const countingComponent = () => {
+	const [clicks, clickSet] = useContext(MyContext);
+	return (
+		<div> The atom has <code>clicks</code> has value {clicks}.
+			<input type="button" value="Click me!" onClick={()=> clicksSet((c) => c+1)}>
+		</div>
+	);
+}
+```
+
+vs.
+
+```clojure
+(ns clicks.core
+  (:require [reagent.core :as r]))
+
+(def clicks (r/atom 0))
+
+(defn counting-component []
+  [:div
+   "The atom " [:code "clicks"] " has value: "
+   @clicks ". "
+   [:input {:type "button" :value "Click me!"
+            :on-click #(swap! clicks inc)}]])
+```
+
+While trivial examples, what is demonstrated here is that one does not need to
+declare a context at or worry about context HOCs when working in ClojureScript.
+If one does not like the ClojureScript r/atoms, they do not have to use them as
+ClojureScript has the ability to interop with JavaScript code. Use hooks, use
+your favorite component libraries!
+
+## You do not hate Redux or Flux, you hate boilerplate
+
+ClojureScript Reagent apps often leverage two libraries to manage state on the
+front end: Fulcro and Re-frame. We will focus on the re-frame method of doing
+things since it is similar to a popular, yet commonly maligned pattern used in
+the React universe: flux through [Redux](https://react-redux.js.org/).
+
+Why do folks use things like Redux? Redux creates a global state store, lets
+users dispatch actions to update it, and create subscriptions into the data
+store to read out of it. State is updated by the reducer returning a new object
+with the updated state. A shallow comparison is done on the updated values, so
+it must be done immutably. Instead of managing your application state all over
+the place in different contexts and/or components, developers just manage it all
+at the top. This is not far off from how many "traditional" applications have
+been designed for years.
+
+Web applications do not have to be some abomination. One can model them like any
+other system: Views that are derived from some sort of database. APIs often do
+this through RESTful endpoints that sit on top of some database. Reads and
+writes into that database are oftentimes done predictably at different layers of
+the application. There is no reason why one can not model front ends of an
+application to look the same way. Instead of an endpoint sitting atop a
+database, it is a React component with a selector that sits on top of a redux
+store. Instead of writing SQL, one would write the path to the useful data in
+JSON. Like SQL does with views, one can even create more pointed (and often
+performant) queries through using selectors. In redux-land, this is done by
+taking advantage of memoization.
+
+While hooks have made the boilerplate less stressful, they do pack a lot into a
+component: Particularly the selector and the dispatch. One can organize all of
+these things into named queries, but that is something that is on the user and
+requires even more boilerplate. The typical process in a JS app is to create the
+reducers to represent the state, put those into a redux provider, create actions
+that update the reducer, and create components that allow for the user to read
+from the store as well as dispatch actions. I'd give a full example of redux
+boilerplate, but most readers (myself included) would probably get bored and not
+read the other points 😅.
+[Take Twitter's word for it.](https://twitter.com/search?q=Redux%20Boilerplate)
+
+Most modern front end web applications also require some sort of network
+communication with a backend server. Often, Redux users just accomplish this by
+using something like [Redux Thunk](https://github.com/reduxjs/redux-thunk). This
+allows async logic to exist inside of dispatched actions. This is a very nice
+feature and why I still prefer redux for API requests over the context API,
+which would require one to keep passing the `dispatch` function created by
+`useReducer` throughout the call stack. One can go even further and create
+observables to handle these concerns using something called
+[Redux Saga](https://redux-saga.js.org/).
+
+### Enter, Re-Frame
+
+Why is it that Clojure Developers can follow almost this same pattern to a tee,
+but not have the same complaints? The smaller language footprint and stronger
+resources at the language level make it easier to do write expressive code and
+reduce boilerplate. For example, actions in Redux give a named `type` that is
+then sent off to a reducer which evaluates that type as part of a `switch`
+statement. One usually does this by having to create strings by hand, export
+them, and import them all over the place to solve this. TypeScript let folks
+create enums, which is nice on the definition side, but still requires imports.
+Clojure lets folks make keywords. `:hello` will be evaluated the same throughout
+the program. However, this is a shortcut and most folks will have the keywords
+"fully qualified." In this case one would declare `::hello` in a namespace and
+it would be bound to that namespace. One can still import and export it though,
+but one never has to worry about the string level collisions that could happen
+in a JS app.
+
+Re-frame doesn't use actions, it uses something called effects. Effects, like
+actions, are dispatched by components (or other effects), and update the state.
+As opposed to creating an action that gets dispatched to a reducer, the effect
+just goes ahead and updates the db directly. This is accomplished by returning a
+new version of the db with the updated values. Redux is technically doing this
+too (that is what one is doing with `default: return state`). Whats nice about
+Clojure is that there are more tools to update the db object without mutation
+since the language is immutable by default. In ClojureScript, one never even has
+to having to worry about things like immutablejs or immer because immutable
+functions are the standard library. Additionally, these effects frequently times
+may also do an http call through something like
+[re-frame's `http-fx` library](https://github.com/day8/re-frame-http-fx).
+`http-fx` provides consistent bindings for doing http calls as a re-frame effect
+and provides hooks into paths for the application to take depending on the
+result of the http call (such as success or failure).
+
+Reframe uses subscriptions to fish data out of the database. While re-frame does
+support reading out of the database and shipping the result to the component, it
+also
+[provides a model](https://day8.github.io/re-frame/subscriptions/#the-four-layers)
+for users to create complicated compounded subscriptions in a performant way
+using materialized views. This is similar to application developers creating
+materialized views on top of larger data sets to achieve better performance and
+following the model of writing a web application like any traditional
+application.
+
+It is worth adding that similar to redux, there is one big global state store in
+re-frame. One declares this upfront by creating the initial app-db, which is
+just one big reagent/atom. Like Redux, one may put default state values in
+there. One may even take advantage of libraries like `datascript` to have a more
+database-like interface into the state rather than just updating an object.
+
+What does all this look like? How can it have less boilerplate?
+
+```clojure
+(ns example.core
+  (:require
+    [re-frame.core :as rf]))
+
+;; effect to set a value in the db
+(rf/reg-event-db
+  :set-value
+  (fn [db [_ v]]
+  (assoc db
+    :value v)))
+
+;; Subsription to read value out of the db
+(rf/reg-sub
+ :read-name
+ (fn [db]
+   (:value db)))
+
+;; use in a component
+(defn my-component []
+  (let [value @(rf/subscribe [:read-name])]
+	[:div
+      [:div (str "My Value is " value)]
+      [:button {:on-click #((rf/dispatch [:set-value (inc value)]))} "increase"]]))
+```
+
+That's only the beginning with what re-frame can give one as a developer. It has
+great devtools with [re-frame-10x](https://github.com/day8/re-frame-10x), a rock
+solid stable API, and [fantastic docs](https://day8.github.io/re-frame/)!
+
+## React wants to be immutable, JavaScript wants to mutate
+
+I first fell in love with immutability and functional programming when working
+with Scala. It was fascinating to me that one could just have an application be
+an expression based on top of data. By avoiding mutation wherever possible, even
+completely, programs were so much easier to reason with. React allows for one to
+exercise this passion on the front end. However, JavaScript in a way makes you
+do this with a hand behind you back. It only has two data types that have first
+class immutability: objects and arrays. Arguably, the first class immutability
+also really only exists in a subset of features such as spread syntax and
+Array's `.slice`. While JavaScript has other data types too such as a `Set`, the
+API for it is designed for it to be mutable. What one could have first class
+performant immutable data structures and a fantastic standard library to mutate
+them, AND run it in the browser? Enter again: ClojureScript.
+
+ClojureScript, though implementing the Clojure's core library, gives folks
+access to all of Clojure's
+[data structures](https://clojure.org/reference/data_structures). The
+[collections](https://clojure.org/reference/data_structures#Collections) and
+libraries around them are especially powerful. The key is that under the hood,
+they are implemented with _only_ immutability in mind using techniques such as
+structural sharing, making them far more performant than just doing the
+operations on objects. There are libraries such as immutablejs that allow for
+folks to get a lot of these tools as well, but having it native to the language
+is next level in terms of support and documentation. Lets start with a trivial
+example such as updating a nested value in an object immutably.
+
+```js
+const obj = { i: { j: { k: 1 } } };
+
+// update k by one immutably
+const newObj = { ...obj, i: { ...obj.i, j: { ...obj.i.j, k: obj.i.j.k + 1 } } };
+```
+
+```clojure
+(def obj {:i {:j {:k 1}}})
+
+; update k by one immutably
+(def new-obj (update-in obj [:i :j :k] inc))
+```
+
+Despite Clojure's somewhat deserved reputation of having a lot of parentheses,
+the Clojure update is a lot simpler! This is just the beginning. `assoc` has far
+better ergonomics than something like a spread and adding of a new key or
+`Object.assign` and is far more performant since ClojureScript is a compiled
+language. Albeit, ClojureScript is compiled to JavaScript, but compilation
+allows for one to write their code to be far more declarative. The JavaScript
+that is outputted by ClojureScript is even optimized by Google's Closure
+Compiler resulting in highly efficient sources.
+
+Interestingly, React's original author
+[Jordan Walke](https://twitter.com/jordwalke) must have somewhat agreed with the
+above because after React, he went on to create a functional immutability first
+language called [ReasonML](https://reasonml.github.io/) that also compiles down
+to JavaScript. While ReasonML is by all accounts fantastic, it is not the
+subject to which I am writing 😉.
+
+## JSX a is gateway drug. Say no to drugs.
+
+[At Reactathon in 2019, I recall somebody calling JSX: the "Gateway Drug to React"](https://www.youtube.com/watch?v=mtjHxwUQUs0)
+(Can't recall who said it, and don't have 5 hours to re-watch it all). It makes
+React easy to pick up for someone that knows a little JavaScript and HTML.
+However, HTML is _too_ declarative of an S-expression to be efficient in
+constructing the DOM. In fact, after working with ClojureScript, I do not think
+JavaScript even has the language tools to build S-expressions elegantly. Many
+products built on the web platform boil down to developers writing code using
+three technologies:
+
+- HTML -> What does the user see?
+- JS -> Change what the user sees!
+- CSS -> Make it pretty!
+
+React gives developers the opportunity to write all of these things inside of
+their JavaScript files. For example, one can write a pretty simple component.
+
+```jsx
+function Component() {
+  const [count, setCount] = React.useState(0);
+  return (
+    <button className="my-class" onClick={() => setCount(count + 1)}>
+      {count}
+    </button>
+  );
+}
+```
+
+Having the ability to write something that looks like HTML in the JavaScript
+makes it very easy to learn and work with. However, XML is a pretty poor data
+type to use for this problem. The JSX actually gets transformed into function
+calls. Particularly, this is accomplished with
+[`React.createElement`](https://reactjs.org/docs/react-api.html#createelement)
+taking in three arguments:
+
+- Tag name
+- Props
+- Children
+
+Hmm, positional arguments! What is a data type that exists in JavaScript that
+helps us with positions? Arrays! Could that button above be made like...
+
+```js
+function Component() {
+  const [count, setCount] = React.useState(0);
+  return ["button" {className: "my-class", onClick: () => setCount(count + 1)} ["count"]]
+}
+```
+
+Was this ever explored as an alternative to JSX? While dumbed down, it does use
+native data structures which would have an advantage of being more easily able
+to parse out than jsx. However, since JavaScript does not have as strong of an
+ability to create data with expressions, developers do not really gain anything.
+
+Lets say you had a component that looked like this
+
+```jsx
+function Component({ children }) {
+  const { data, loading, error } = useGetMyData();
+  if (loading) {
+    return;
+    <div>
+      <div>loading...</div>
+      {children}
+    </div>;
+  }
+  if (error) {
+    console.error("Uh oh!");
+    return (
+      <div>
+        <div style={{ color: "red" }}>{error.message}</div>
+        {children}
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div>Data:</div>
+      <div style={{ color: "green" }}>{data}</div>
+      {children}
+    </div>
+  );
+}
+```
+
+One can write something like an Immediately-invoked Function Expression (IIFE)
+in an effort to make this more expressive:
+
+```jsx
+function Component({ children }) {
+  const { data, loading, error } = useGetMyData();
+
+  return (
+    <div>
+      {(function () {
+        if (loading) {
+          return <div>loading...</div>;
+        }
+        if (error) {
+          console.error("Uh oh!");
+          return <div style={{ color: "red" }}>{error.message}</div>;
+        }
+        return (
+          <>
+            <div>Data:</div>
+            <div style={{ color: "green" }}>{data}</div>
+          </>
+        );
+      })()}
+      {children}
+    </div>
+  );
+}
+```
+
+JSX already has enough ugliness to it, adding an IIFE arguably makes things even
+more confusing and perhaps harder in the future to debug. One could also make
+another component, but that would be even more boilerplate and code to maintain.
+This isn't a problem with React. React _wants_ you to put an expression in
+there. Technically, it is possible to do with nested ternary operators, but even
+that gets more confusing.
+
+Clojure as stated before takes the attitude of using a vector (similar to an
+array in js) to express the markup as opposed to XML in a format called
+[hiccup](https://github.com/weavejester/hiccup). This can become even denser in
+fewer lines of code with clojure:
+
+```clojure
+(defn example [& children]
+  (let [{:keys [data loading error]} (useGetMyData)]
+    (into
+     [:div
+      (cond
+        loading [:div "loading"]
+        error [:div {:style {:color "red"}} (error :message)]
+        :else [:<>
+               [:div "data:"]
+               [:div {:style {:color "green"}} data]])]
+     children)))
+```
+
+Clojure can pull this off because unlike JavaScript, everything is an
+expression! Additionally, like many of these examples, this is only the
+beginning. What I really wanted to do in the past was define enums to represent
+states of the application based on loading, data and error states. Then, I
+wanted to write a switch statement inside of the JSX on the enum to
+conditionally render. On the other hand, Clojure gives allows one to use a
+`cond` or `case` statement to accomplish this functionally as demonstrated
+above.
+
+However, for those of us that still do love JavaScript (yes, I do!), there is a
+[pattern matching proposal that TC-39 has on their radar](https://github.com/tc39/proposal-pattern-matching).
+So perhaps one day my dream of a switch statement inside of JSX will come true.
+
+## In Summary
+
+One of the reasons why I decided to move onto a Clojure shop was that I really
+enjoyed functional programming models and I wanted to learn more using one of
+the marquee languages for doing it. Even if you don't intend on using Clojure or
+ClojureScript in production, it is definitely a useful exercise to try building
+functional declarative UIs in them. Try using ClojureScript and Reagent to see
+what you do in a language that barely supports mutability of any kind and how
+that motivates the JavaScript that you will write in the future. Previously
+working with TypeScript has made me miss types and appreciate the runtime checks
+of [`spec`](https://clojure.org/guides/spec). Many advantages/tradeoffs that
+come with picking a particular tool. Node is often in my tool belt so that I can
+use one language on both the browser and the server. Clojure is traditionally
+used on the back end of stacks, and ClojureScript is what gives it an
+opportunity to shine on the front end. Many will say Clojure actually really
+flexes on the back end with how it sits on top of the JVM. As convenient as node
+is, it is nowhere near as fast as the JVM, nor does it support technologies such
+as multi-threading out of the box.
+
+If you want to work with Clojure and ClojureScript professionally, we are also
+hiring at [Reify Health](https://www.reifyhealth.com/careers)! While you do not
+need to know Clojure prior to joining (I didn't!), having a ❤ for functional
+programming is always a plus!
