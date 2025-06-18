@@ -3,9 +3,6 @@ import { BlogPosts } from "app/components/posts";
 export default function Page() {
   return (
     <section>
-      <h1 className="mb-4 text-2xl font-semibold tracking-tighter">
-        Ryan Jerue
-      </h1>
       <p className="mb-4">
         I am Ryan Jerue, a Software Engineer working for Amazon in Arlington,
         Virginia. My focus is in creating scalable web systems. I can be
