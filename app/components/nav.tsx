@@ -18,7 +18,7 @@ const NavbarItem = ({
 }: { children: React.ReactNode } & React.HTMLProps<HTMLAnchorElement>) => {
   return (
     <a
-      className="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 dark:fill-white flex align-middle relative py-1 px-2 m-1"
+      className="transition-all hover:fill-neutral-800 dark:hover:fill-neutral-200 dark:fill-white flex align-middle relative py-1 px-2 m-1"
       {...linkProps}
     >
       <svg
