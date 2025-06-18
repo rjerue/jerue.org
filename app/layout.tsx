@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "Ryan Jerue",
   description: "Technical blog of Ryan Jerue",
   openGraph: {
-    title: "Ryan JErue",
+    title: "Ryan Jerue",
     description: "Technical blog of Ryan Jerue",
     url: baseUrl,
     siteName: "jerue.org",
