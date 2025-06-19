@@ -3,8 +3,8 @@ import { CustomMDX } from "app/components/mdx";
 import { formatDate, getBlogPosts } from "app/blog/utils";
 import { baseUrl } from "app/sitemap";
 import { ImageResponse } from "next/og";
-import fs from "fs/promises";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
 
 export async function generateStaticParams() {
   let posts = getBlogPosts();
@@ -35,7 +35,6 @@ async function genImage(title: string, slug: string) {
 
   // Convert ArrayBuffer to Buffer
   const buffer = Buffer.from(arrayBuffer);
-  const uint8Array = new Uint8Array(buffer);
 
   const prev = path.join(process.cwd(), "public", "prev");
 
@@ -45,7 +44,7 @@ async function genImage(title: string, slug: string) {
     //exists
   }
 
-  return fs.writeFile(path.join(prev, `${slug}.png`), uint8Array);
+  return fs.writeFile(path.join(prev, `${slug}.png`), buffer);
 }
 
 export default async function Blog({ params }) {
