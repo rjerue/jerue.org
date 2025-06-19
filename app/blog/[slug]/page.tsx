@@ -14,12 +14,6 @@ export async function generateStaticParams() {
   }));
 }
 
-const isDirExist = async (path) =>
-  await fs
-    .access(path)
-    .then(() => true)
-    .catch(() => false);
-
 async function genImage(title: string, slug: string) {
   const img = new ImageResponse(
     (
@@ -45,8 +39,10 @@ async function genImage(title: string, slug: string) {
 
   const prev = path.join(process.cwd(), "public", "prev");
 
-  if (!(await isDirExist(prev))) {
+  try {
     await fs.mkdir(prev);
+  } catch {
+    //exists
   }
 
   return fs.writeFile(path.join(prev, `${slug}.png`), uint8Array);
