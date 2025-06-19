@@ -46,7 +46,7 @@ async function genImage(title: string, slug: string) {
   const prev = path.join(process.cwd(), "public", "prev");
 
   if (!(await isDirExist(prev))) {
-    fs.mkdir(prev);
+    await fs.mkdir(prev);
   }
 
   return fs.writeFile(path.join(prev, `${slug}.png`), uint8Array);
