@@ -2,6 +2,9 @@ import { notFound } from "next/navigation";
 import { CustomMDX } from "app/components/mdx";
 import { formatDate, getBlogPosts } from "app/blog/utils";
 import { baseUrl } from "app/sitemap";
+import { ImageResponse } from "next/og";
+import fs from "fs/promises";
+import path from "path";
 
 export async function generateStaticParams() {
   let posts = getBlogPosts();
@@ -11,44 +14,42 @@ export async function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }) {
-  let post = getBlogPosts().find((post) => post.slug === params.slug);
-  if (!post) {
-    return;
+const isDirExist = async (path) =>
+  await fs
+    .access(path)
+    .then(() => true)
+    .catch(() => false);
+
+async function genImage(title: string, slug: string) {
+  const img = new ImageResponse(
+    (
+      <div tw="flex flex-col w-full h-full items-center justify-center bg-white">
+        <div tw="flex flex-col md:flex-row w-full py-12 px-4 md:items-center justify-between p-8">
+          <h2 tw="flex flex-col text-4xl font-bold tracking-tight text-left">
+            {title}
+          </h2>
+        </div>
+      </div>
+    ),
+    {
+      width: 1200,
+      height: 630,
+    }
+  );
+  // Convert the response to an ArrayBuffer
+  const arrayBuffer = await img.arrayBuffer();
+
+  // Convert ArrayBuffer to Buffer
+  const buffer = Buffer.from(arrayBuffer);
+  const uint8Array = new Uint8Array(buffer);
+
+  const prev = path.join(process.cwd(), "public", "prev");
+
+  if (!(await isDirExist(prev))) {
+    fs.mkdir(prev);
   }
 
-  let {
-    title,
-    publishedAt: publishedTime,
-    summary: description,
-    image,
-  } = post.metadata;
-  let ogImage = image
-    ? image
-    : `${baseUrl}/og?title=${encodeURIComponent(title)}`;
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      type: "article",
-      publishedTime,
-      url: `${baseUrl}/blog/${post.slug}`,
-      images: [
-        {
-          url: ogImage,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [ogImage],
-    },
-  };
+  return fs.writeFile(path.join(prev, `${slug}.png`), uint8Array);
 }
 
 export default function Blog({ params }) {
@@ -60,6 +61,7 @@ export default function Blog({ params }) {
   if (!post) {
     notFound();
   }
+  const preview = genImage(post.metadata.title, post.slug);
 
   return (
     <section>
