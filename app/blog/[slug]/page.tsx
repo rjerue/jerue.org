@@ -52,7 +52,7 @@ async function genImage(title: string, slug: string) {
   return fs.writeFile(path.join(prev, `${slug}.png`), uint8Array);
 }
 
-export default function Blog({ params }) {
+export default async function Blog({ params }) {
   const posts = getBlogPosts();
   const post = posts.find(
     (post) => post.slug === decodeURIComponent(params.slug)
@@ -61,7 +61,7 @@ export default function Blog({ params }) {
   if (!post) {
     notFound();
   }
-  const preview = genImage(post.metadata.title, post.slug);
+  await genImage(post.metadata.title, post.slug);
 
   return (
     <section>
