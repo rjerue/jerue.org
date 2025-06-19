@@ -1,5 +1,7 @@
 import { getBlogPosts } from "app/blog/utils";
 
+export const dynamic = "force-static";
+
 export const baseUrl = "https://www.jerue.org";
 
 export default async function sitemap() {
