@@ -56,8 +56,8 @@ export default function RootLayout({
             Ryan Jerue
           </h1>
           {children}
-          <Analytics />
-          <SpeedInsights />
+          {/*<Analytics />
+          <SpeedInsights />*/}
         </main>
       </body>
     </html>
