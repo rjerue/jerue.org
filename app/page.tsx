@@ -4,18 +4,18 @@ export default function Page() {
   return (
     <section>
       <p className="mb-4">
-        I am Ryan Jerue, a Software Engineer working for Amazon in Arlington,
-        Virginia. My focus is in creating scalable web systems. I can be
-        contacted by email over ryan at jerue dot org.
+        I am Ryan Jerue, a Software Engineer in Northern Virginia. My focus is
+        in creating scalable web systems. I can be contacted by email over ryan
+        at jerue dot org.
       </p>
       <h2 className="mb-4 text-2xl font-semibold tracking-tighter">
         About me:
       </h2>
       <ul className="list-disc pl-6">
         <li className="mb-2">
-          Previously worked at Reify Health, Viasat, Charles River Development,
-          NAVSEA, and with the RIPPLES group at my alma mater, the University of
-          Massachusetts Amherst.
+          Previously worked at Amazon, Reify Health, Viasat, Charles River
+          Development, NAVSEA, and with the RIPPLES group at my alma mater, the
+          University of Massachusetts Amherst.
         </li>
         <li className="mb-2">
           Enjoy working with JavaScript, TypeScript, Clojure(Script), React,
